@@ -1,0 +1,2 @@
+E:\zawo\hand-made\Code\cpp\ilo-cpp\Debug\ilo-cpp.exe
+E:\zawo\hand-made\Code\cpp\ilo-cpp\Debug\ilo-cpp.pdb

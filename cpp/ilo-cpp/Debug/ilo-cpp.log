@@ -1,0 +1,7 @@
+﻿  ilo-cpp.cpp
+E:\zawo\hand-made\Code\cpp\ilo-cpp\ilo-cpp.cpp(35,20): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+E:\zawo\hand-made\Code\cpp\ilo-cpp\ilo-cpp.cpp(51,21): warning C4018: "<": niezgodność typu ze znakiem/bez znaku
+E:\zawo\hand-made\Code\cpp\ilo-cpp\ilo-cpp.cpp(136,9): warning C4244: "inicjowanie": konwersja z "double" do "int", możliwa utrata danych
+E:\zawo\hand-made\Code\cpp\ilo-cpp\ilo-cpp.cpp(188,24): warning C4018: "<=": niezgodność typu ze znakiem/bez znaku
+E:\zawo\hand-made\Code\cpp\ilo-cpp\ilo-cpp.cpp(190,26): warning C4018: "<=": niezgodność typu ze znakiem/bez znaku
+  ilo-cpp.vcxproj -> E:\zawo\hand-made\Code\cpp\ilo-cpp\Debug\ilo-cpp.exe
