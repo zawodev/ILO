@@ -22,5 +22,3 @@ while user_input != 3:
 
     user_input = int(input("Daj: "))
     print()
-
-    
