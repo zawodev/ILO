@@ -43,4 +43,3 @@ int main() {
 
     cout<<t[n+1]-t[n];
 }
-
