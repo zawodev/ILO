@@ -17,117 +17,6 @@ using namespace std;
 
 //=======================================
 
-struct graf
-{
-	bool viz = false;
-	vector<int> connects;
-	int odl;
-} * G;
-void StartUp(int n)
-{
-	G = new graf[n];
-}
-void Connect(int a, int b)
-{
-	G[a].connects.push_back(b);
-}
-void DFS(int x, int y)
-{
-	G[x].viz = 1;
-
-	for (int i = 0; i < G[x].connects.size(); i++)
-	{
-		if (!G[G[x].connects[i]].viz)
-		{
-			DFS(G[x].connects[i], y + 1);
-		}
-	}
-}
-void BFS(int x)
-{
-
-	queue<int> kolejka;
-	kolejka.push(x);
-	G[x].odl = 0;
-	G[x].viz = 1;
-
-	while (!kolejka.empty())
-	{
-		x = kolejka.front();
-		kolejka.pop();
-		for (int i = 0; i < G[x].connects.size(); i++)
-		{
-			int y = G[x].connects[i];
-			if (!G[y].viz)
-			{
-				kolejka.push(y);
-				G[y].viz = 1;
-				G[y].odl = G[x].odl + 1;
-			}
-		}
-	}
-}
-
-inline void putt(int n, bool first = true)
-{
-	if (first && n == 0)
-		putc_unlocked('0', stdout);
-	if (n < 0)
-	{
-		putc_unlocked('-', stdout);
-		n = -n;
-	}
-	if (n > 0)
-	{
-		putt(n / 10, false);
-		putc_unlocked(n % 10 + 48, stdout);
-	}
-}
-inline void gett(int *n) //ujemne i dodatnie
-{
-	register char c = 0,
-				  znak_liczby = 1; //1 - liczba dodatnia, -1 - liczba ujemna
-	while (c < 33)
-		c = getc_unlocked(stdin);
-
-	if (c == 45)
-	{
-		znak_liczby = -1;
-		c = getc_unlocked(stdin);
-	} //jesli napotkamy minus
-	(*n) = 0;
-
-	while (c > 32)
-	{
-		(*n) = (*n) * 10 + c - 48;
-		c = getc_unlocked(stdin);
-	}
-
-	(*n) *= znak_liczby;
-}
-inline void gett(long long *n) //ujemne i dodatnie
-{
-	register char c = 0,
-				  znak_liczby = 1; //1 - liczba dodatnia, -1 - liczba ujemna
-	while (c < 33)
-		c = getc_unlocked(stdin);
-
-	if (c == 45)
-	{
-		znak_liczby = -1;
-		c = getc_unlocked(stdin);
-	} //jesli napotkamy minus
-	(*n) = 0;
-
-	while (c > 32)
-	{
-		(*n) = (*n) * 10 + c - 48;
-		c = getc_unlocked(stdin);
-	}
-
-	(*n) *= znak_liczby;
-}
-
 bool isPrime(int n)
 {
 	if (n <= 3)
@@ -163,101 +52,6 @@ float minn(float a, float b)
 		return b;
 }
 
-vector<int> FindPrimeFactors(int n)
-{
-	int k = 2;
-	int ns = sqrt(n);
-	vector<int> score;
-	while (n > 1 && k <= ns)
-	{
-		while (n % k == 0)
-		{
-			score.push_back(k);
-			n /= k;
-		}
-		++k;
-	}
-	if (n > 1)
-		score.push_back(n);
-
-	return score;
-}
-vector<int> FindCommonDevidors(int n){
-	vector<int> score;
-    for(int i=1; i<=sqrt(n); i++) {
-        if(n % i == 0) {
-			score.push_back(n/i);
-			score.push_back(i);
-		}
-    }
-	sort(score.begin(), score.end(), greater<>());
-	return score;
-}
-string WriteVector(vector<int> a){
-	string s;
-	while (!a.empty()) {
-		s+= to_string(a.back());
-		s+=' ';
-		a.pop_back();
-	}
-	return s;
-}
-vector<int> RCP(int n)
-{
-	vector<int> v;
-	int k = 2;
-	while (n > 1)
-	{
-		while (n % k == 0)
-		{
-			v.push_back(k);
-			n /= k;
-		}
-		++k;
-	}
-	return v;
-}
-double RPN(stack<string> &tks)
-{
-	double x, y;
-	string tk = tks.top();
-	tks.pop();
-	int n = tk.size();
-
-	if (n == 1 && string("+-*/").find(tk) != string::npos)
-	{
-
-		y = RPN(tks);
-		x = RPN(tks);
-
-		if (tk[0] == '+')
-			x += y;
-		else if (tk[0] == '-')
-			x -= y;
-		else if (tk[0] == '*')
-			x *= y;
-		else
-			x /= y;
-	}
-	else
-		x = stod(tk);
-
-	return x;
-}
-
-void sito(bool *tab, unsigned int n)
-{
-	for (int i = 2; i * i <= n; i++)
-	{
-		if (!tab[i])
-		{
-			for (int j = i * i; j <= n; j += i)
-			{
-				tab[j] = 1;
-			}
-		}
-	}
-}
 int IloczynCyfr(int x)
 {
 	if (x > 0)
@@ -327,10 +121,36 @@ int main() {
 }
 */
 
-int n, a;
+int n, x, y, a, b;
+bool s[1000111];
+
+queue<int> scores;
 
 int main() {
     iostream::sync_with_stdio(false);
 
-    
+    cin >> n >> x >> y;
+    for (int i = 0; i < n; i++){
+        cin >> a >> b;
+		for (int j = a; j <= b; j++){
+            s[j] = true;
+        }
+    }
+
+	if(y > x){
+		for (int i = y; i >= x; i--){
+        	if (!s[i]) scores.push(i);
+    	}
+	}
+	else{
+		for (int i = y; i <= x; i++){
+            if (!s[i]) scores.push(i);
+        }
+	}
+
+    cout << scores.size() << '\n';
+    while(!scores.empty()){
+		cout<<scores.front() << ' ';
+        scores.pop();
+    }
 }
