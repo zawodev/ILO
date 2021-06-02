@@ -2,10 +2,14 @@
 user_input = 0
 
 def save_to_file():
-    file = open("py/test/tasks.txt", "w")
-    file.write("ello")
-    file.write("ello2")
-    file.close()
+    file = open("Uczen-Opiekun.txt", "r")
+    file2 = open("wynik.txt", "w")
+    line = file.readline()
+    i = 1
+    while (line != ""):
+        file2.write((str)(i) + " " + line)
+        line = file.readline()
+        i+=1
 
 
 while user_input != 3:
