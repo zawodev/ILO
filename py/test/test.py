@@ -15,8 +15,12 @@ def save_to_file():
 
 def zaw2pol():
     clear()
-    txt = str(input("Speak Zawish now: "))
-    txt += 'A'
+    n = 2
+    txt_in = str(input("Speak Zawish now: "))
+    txt_out = ""
+
+    parts = [(txt[i:i+n]) for i in range(0, len(txt), n)]
+
     print(txt + '\n')
 
 def pol2zaw():
