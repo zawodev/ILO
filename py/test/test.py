@@ -25,6 +25,7 @@ def save_to_file():
 def zaw2pol():
     clear()
     txt_in = str(input("=============================================\n          Type Text to Translate:\n=============================================\n"))
+    while len(txt_in) % 3 != 0: txt_in += ' '
     parts = [(txt_in[i:i+n]) for i in range(0, len(txt_in), n)]
     #print(parts)
 
