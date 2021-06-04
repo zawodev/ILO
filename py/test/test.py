@@ -1,5 +1,6 @@
 import os
 import json
+import random
 
 with open("data4.json", 'r') as jsonfile:
     paren = json.loads(jsonfile.read())
@@ -42,14 +43,16 @@ def zaw2pol():
 def generate_symbols(): #148876 => 74438 * 2
     clear()
     file = open("data4.json", "w")
-    txt = '['
+    arr = []
     for i in range(0, len(symbols)):
         for j in range(0, len(symbols)):
             for k in range(0, len(symbols)):
                 if symbols[i] != ' ' or symbols[j] != ' ' or symbols[k] != ' ': 
-                    txt += '"' + symbols[i] + symbols[j] + symbols[k] +'", '
-    txt = txt[:len(txt)-2] + ']'
-    file.write(txt)
+                    arr.append(str(symbols[i] + symbols[j] + symbols[k]))
+    #txt = txt[:len(txt)-2] + ']'
+    random.shuffle(arr)
+    txt = str(arr)
+    file.write(txt.replace("'", '"'))
     print("=============================================\n       Symbols Generated Successfully!\n=============================================")
     
 
