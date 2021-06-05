@@ -13,6 +13,11 @@ using namespace std;
 #define putc_unlocked _fputc_nolock
 #endif
 
+int id[110011];
+short memCount[110011];
+string cityCode[110011];
+int waterUsage[20][110011];
+
 //=======================================
 
 vector<string> mysplit(string str){
@@ -40,11 +45,18 @@ int main() {
     string line = "";
 
     if (fin.is_open()) {
-	    while (getline(fin, line)) {
-            vector<string> inp = mysplit(line);
+        int i = 0;
+        while (getline(fin, line)) {
+            vector<string> info = mysplit(line);
+            for (int j = 0; j < 12; j++) waterUsage[i][j] = stoi(info[i+1]);
+            id[i] = stoi(info[0].substr(0, 5));
+            memCount[i] = stoi(info[0].substr(5, 7));
+
+            cout << id[i] << ' ' << memCount[i] << ' ' << waterUsage[0] << '\n';
+            i++;
         }
 		fin.close();
-	}
+    }
     return 0;
 }
 
