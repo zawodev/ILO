@@ -243,8 +243,21 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-int n, a;
+string s;
+int f = -1 , l = -1, score;
 
 int main() {
     iostream::sync_with_stdio(false);
+
+    cin >> s;
+    for(int i = 0; i < s.size(); i++){
+        if(s[i] == 'C' && f == -1) f = i;
+        if(s[i] == 'C') l = i;
+    }
+    for(int i = 0; i < s.size(); i++){
+        if(i > f && i < l){
+            if(s[i] == 'B') score++;
+        }
+    }
+    cout<<score;
 }
