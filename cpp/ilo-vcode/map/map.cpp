@@ -15,10 +15,15 @@ using namespace std;
 
 //=======================================
 
+int score = INT_MAX, n, m, k, STA, END, a, b;
+set <pair<int,int>> mojset;
+int odl[600000];
+int zrobiony[600000];
+pair <int,int> akt;
 //=======================================
 struct graf
 {
-	bool viz = false;
+	int viz = 10;
 	vector<pair<int, int>> connects;
 	int odl;
 } * G;
@@ -28,23 +33,26 @@ void StartUp(int n)
 }
 void Connect(int a, int b, int c)
 {
-	G[a].connects.push_back({b, c});
+	G[a].connects.push_back({c, b});
 }
-void DFS(int x, int y)
+void DFS(int x, int w)
 {
-	G[x].viz = 1;
+	if(x == END){
+		score = min(score, w);
+	}
+
+	G[x].viz--;
 
 	for (int i = 0; i < G[x].connects.size(); i++)
 	{
-		if (!G[G[x].connects[i].first].viz)
+		if (G[G[x].connects[i].first].viz > 0)
 		{
-			DFS(G[x].connects[i].first, y + 1);
+			DFS(G[x].connects[i].first, w + G[x].connects[i].second);
 		}
 	}
 }
 void BFS(int x)
 {
-
 	queue<int> kolejka;
 	kolejka.push(x);
 	G[x].odl = 0;
@@ -64,6 +72,24 @@ void BFS(int x)
 				G[y].odl = G[x].odl + 1;
 			}
 		}
+	}
+}
+void Djikstra (int x){
+	odl[x]=0;  mojset.insert({0,x});
+	while (!mojset.empty()){
+    akt = *mojset.begin(); mojset.erase(mojset.begin());
+    int w = akt.second;
+    if (zrobiony[w]==0) {
+        zrobiony[w]=1;
+        for (int i=0; i < G[w].connects.size() ;i++) {
+            int v = G[w].connects[i].second;
+			//if(G[w].connects[i].first == 0) 
+            if (zrobiony[v]==0){
+                odl[v] = min(odl[v], odl[w]+G[w].connects[i].first);
+                mojset.insert({odl[v],v});
+            }
+        }
+    }
 	}
 }
 
@@ -231,20 +257,28 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-int n, m, k, x, y, a, b;
-
 int main() {
     iostream::sync_with_stdio(false);
 	cin >> n >> m >> k;
-    cin >> x >> y;
+    cin >> STA >> END;
 
-	StartUp(n);
-
+	StartUp(n+5);
+	for (int i=0;i<600000;i++) odl[i] = INT_MAX;
 	for (int i = 0; i < m; i++){
 		cin>>a>>b;
 		Connect(a, b, 1);
+		Connect(b, a, 1);
 	}
 	for (int i = 0; i < k; i++){
+		cin>>a>>b;
 		Connect(a, b, 0);
+		Connect(b, a, 0);
+		Djikstra(STA);
+		for (int i=0;i<600000;i++) zrobiony[i] = 0;
+		akt.first = 0; akt.second = 0;
+		G[a].connects.pop_back();
+		G[b].connects.pop_back();
 	}
+	//Djikstra(STA);
+	cout<<odl[END];
 }
