@@ -284,6 +284,21 @@ int nwd(int x, int y)
         return x;
     return nwd(y,x%y);
 }
+int bit[100];
+int point_query(int idx) {
+    int ret = 0;
+    for (++idx; idx > 0; idx -= idx & -idx)
+        ret += bit[idx];
+    return ret;
+}
+void add(int idx, int val) {
+    for (++idx; idx < n; idx += idx & -idx)
+        bit[idx] += val;
+}
+void range_add(int l, int r, int val) {
+    add(l, val);
+    add(r + 1, -val);
+}
 
 /*int W(int a[3], int b[3], int c[3]) {
     return ( a[0] * b[1] * c[2] + b[0] * c[1] * a[2] + c[0] * a[1] * b[2]-(a[0] * c[1] * b[2] + b[0] * a[1] * c[2] + c[0] * b[1] * a[2]));
