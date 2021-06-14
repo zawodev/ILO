@@ -16,20 +16,19 @@ using namespace std;
 //=======================================
 
 //=======================================
-
 struct graf
 {
 	bool viz = false;
-	vector<int> connects;
+	vector<pair<int, int>> connects;
 	int odl;
 } * G;
 void StartUp(int n)
 {
 	G = new graf[n];
 }
-void Connect(int a, int b)
+void Connect(int a, int b, int c)
 {
-	G[a].connects.push_back(b);
+	G[a].connects.push_back({b, c});
 }
 void DFS(int x, int y)
 {
@@ -37,9 +36,9 @@ void DFS(int x, int y)
 
 	for (int i = 0; i < G[x].connects.size(); i++)
 	{
-		if (!G[G[x].connects[i]].viz)
+		if (!G[G[x].connects[i].first].viz)
 		{
-			DFS(G[x].connects[i], y + 1);
+			DFS(G[x].connects[i].first, y + 1);
 		}
 	}
 }
@@ -57,7 +56,7 @@ void BFS(int x)
 		kolejka.pop();
 		for (int i = 0; i < G[x].connects.size(); i++)
 		{
-			int y = G[x].connects[i];
+			int y = G[x].connects[i].first;
 			if (!G[y].viz)
 			{
 				kolejka.push(y);
@@ -182,17 +181,6 @@ vector<int> FindPrimeFactors(int n)
 
 	return score;
 }
-vector<int> FindCommonDevidors(int n){
-	vector<int> score;
-    for(int i=1; i<=sqrt(n); i++) {
-        if(n % i == 0) {
-			score.push_back(n/i);
-			score.push_back(i);
-		}
-    }
-	sort(score.begin(), score.end(), greater<>());
-	return score;
-}
 string WriteVector(vector<int> a){
 	string s;
 	while (!a.empty()) {
@@ -243,21 +231,20 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-string s;
-int f = -1 , l = -1, score;
+int n, m, k, x, y, a, b;
 
 int main() {
     iostream::sync_with_stdio(false);
+	cin >> n >> m >> k;
+    cin >> x >> y;
 
-    cin >> s;
-    for(int i = 0; i < s.size(); i++){
-        if(s[i] == 'C' && f == -1) f = i;
-        if(s[i] == 'C') l = i;
-    }
-    for(int i = 0; i < s.size(); i++){
-        if(i > f && i < l){
-            if(s[i] == 'B') score++;
-        }
-    }
-    cout<<score;
+	StartUp(n);
+
+	for (int i = 0; i < m; i++){
+		cin>>a>>b;
+		Connect(a, b, 1);
+	}
+	for (int i = 0; i < k; i++){
+		Connect(a, b, 0);
+	}
 }
