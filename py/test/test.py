@@ -1,6 +1,9 @@
+from math import sqrt
 import os
 import json
 import random
+import math
+from sys import winver
 
 with open("data4.json", 'r') as jsonfile:
     paren = json.loads(jsonfile.read())
@@ -55,10 +58,32 @@ def generate_symbols(): #148876 => 74438 * 2
     txt = str(arr)
     file.write(txt.replace("'", '"'))
     print("=============================================\n       Symbols Generated Successfully!\n=============================================")
-    
+
+def generate_dating():
+    clear()
+    print("=============================================\n            Dating Data Symulator\n=============================================")
+    num = int(input("Man or Woman Count: "))
+    arr_wom = []
+    arr_man = []
+    a = float(input("a: "))
+    b = float(input("b: "))
+    c = float(input("c: "))
+    for i in range(0, num):
+        x = random.random()
+        y = a * math.exp(-(pow(x-b, 2)) / (2 * pow(c, 2)))
+        arr_wom.append(y)
+
+    for i in range(0, num):
+        x = random.randint(0, 100)
+        arr_man.append(x)
+
+    arr_wom.sort()
+    arr_man.sort()
+    print(arr_wom)
+    print(arr_man)
 
 
-while user_input != 4:
+while user_input != 5:
 
     if user_input == 1:
         save_to_file()
@@ -66,12 +91,15 @@ while user_input != 4:
         zaw2pol()
     if user_input == 3:
         generate_symbols()
+    if user_input == 4:
+        generate_dating()
         
     print()
     print("1. Save To File")
     print("2. Translation Gen 1.")
     print("3. Generate Gen 1. Symbols")
-    print("4. Koniec")
+    print("4. Generate Dating Data")
+    print("5. Koniec")
 
     user_input = int(input("Give your input: "))
     print()
