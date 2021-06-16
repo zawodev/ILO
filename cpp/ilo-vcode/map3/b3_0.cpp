@@ -183,7 +183,7 @@ int nwd(int x, int y)
 int n, m, k;
 int x[1000111];
 int y[1000111];
-long long score = 1;
+long long score;
 int groups;
 map<pair<int, int>, pair<int, int>> R;
 map<pair<int, int>, bool> M;
@@ -219,26 +219,24 @@ int main() {
         R[{x[i], y[i]}] = {x[i], y[i]};
         
         M[{x[i], y[i]}] = true;
-    }
-    for (int i = 1; i <= k; i++){
-        if(M[{x[i] + 2, y[i] + 1}]) Union({x[i], y[i]}, {x[i] + 2,y[i] + 1});
-        if(M[{x[i] + 2, y[i] - 1}]) Union({x[i], y[i]}, {x[i] + 2,y[i] - 1});
-        if(M[{x[i] - 2, y[i] + 1}]) Union({x[i], y[i]}, {x[i] - 2,y[i] + 1});
-        if(M[{x[i] - 2, y[i] - 1}]) Union({x[i], y[i]}, {x[i] - 2,y[i] - 1});
+        if(M[{x[i] + 2, y[i] + 1}]) Union({x[i], y[i]}, {x[i+2],y[i+1]});
+        if(M[{x[i] + 2, y[i] - 1}]) Union({x[i], y[i]}, {x[i+2],y[i-1]});
+        if(M[{x[i] - 2, y[i] + 1}]) Union({x[i], y[i]}, {x[i-2],y[i+1]});
+        if(M[{x[i] - 2, y[i] - 1}]) Union({x[i], y[i]}, {x[i-2],y[i-1]});
 
-        if(M[{x[i] + 1, y[i] + 2}]) Union({x[i], y[i]}, {x[i] + 1,y[i] + 2});
-        if(M[{x[i] - 1, y[i] + 2}]) Union({x[i], y[i]}, {x[i] - 1,y[i] + 2});
-        if(M[{x[i] + 1, y[i] - 2}]) Union({x[i], y[i]}, {x[i] + 1,y[i] - 2});
-        if(M[{x[i] - 1, y[i] - 2}]) Union({x[i], y[i]}, {x[i] - 1,y[i] - 2});
+        if(M[{x[i] + 1, y[i] + 2}]) Union({x[i], y[i]}, {x[i+1],y[i+2]});
+        if(M[{x[i] - 1, y[i] + 2}]) Union({x[i], y[i]}, {x[i-1],y[i+2]});
+        if(M[{x[i] + 1, y[i] - 2}]) Union({x[i], y[i]}, {x[i+1],y[i-2]});
+        if(M[{x[i] - 1, y[i] - 2}]) Union({x[i], y[i]}, {x[i-1],y[i-2]});
     }
     for (int i = 1; i <= k; i++){
         V[R[{x[i], y[i]}]]++;
         //cout << R[{x[i], y[i]}].first << ' ' << R[{x[i], y[i]}].second << '\n';
     }
     for(auto v : V){
-        score *= silnia(v.second);
+        score += silnia(v.second);
         score %= 1000000007;
-        //cout << v.first.first << ' ' << v.first.second << ' ' << v.second << '\n';
+        cout << v.first.first << ' ' << v.first.second << ' ' << v.second << '\n';
     }
     for(auto m : M){
         //cout << m.first.first << ' ' << m.first.second << ' ' << m.second << '\n';

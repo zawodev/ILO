@@ -180,7 +180,8 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-int a, b, c, d;
+int a, b, c, d, c1, c2;
+int r1, r2, r3;
 
 int main() {
     iostream::sync_with_stdio(false);
@@ -188,5 +189,31 @@ int main() {
     cin >> a >> b;
     cin >> c >> d;
 
+    int e = abs(a - c);
+    int f = abs(b - d);
+
+    r1 = a * a + b * b;
+    r2 = c * c + d * d;
+    r3 = e * e + f * f;
+
+    if(r1<r2) {
+        swap(r1, r2);
+        swap(a, c);
+        swap(b, d);
+    }
+    
+    if(a >= 0 && b > 0) c1 = 0;
+    else if(a > 0 && b <= 0) c1 = 1;
+    else if(a <= 0 && b < 0) c1 = 2;
+    else if(a < 0 && b >= 0) c1 = 3;
+
+    if(c >= 0 && d > 0) c2 = 0;
+    else if(c > 0 && d <= 0) c2 = 1;
+    else if(c <= 0 && d < 0) c2 = 2;
+    else if(c < 0 && d >= 0) c2 = 3;
+
+    //cout << r1 << ' ' << r2 << ' ' << r3 << ' ' << c1 << ' ' << c2 << '\n';
+    if(r1 + r2 == r3 && (c1+1)%4 == c2%4) cout<<"TAK";
+    else cout<<"NIE";
     
 }
