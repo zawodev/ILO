@@ -180,73 +180,54 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-int n, k, biggest, first = -1, last, minnn = INT_MAX, k2, maxxx = INT_MIN, nf = -1, nl = -1, score = -1, lb,lastscore, lnf, lnl;
-int a[1000111];
-int b[1000111];
+char t[3000][3000];
+int n, score, counter=1;
+bool v;
+queue<int> x, y;
 
-int main()
-{
-    iostream::sync_with_stdio(false);
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin >> n;
 
-    cin >> n >> k;
     for (int i = 0; i < n; i++){
-        cin >> a[i];
-        b[a[i]]++;
-        biggest = max(biggest, a[i]);
+        for (int j = 0; j < n; j++){
+            cin >> t[i][j];
+        }
     }
-    while (nl - nf < k - 1 && (biggest != lb || lastscore != score || lnl != nl || lnf != nf)){
-        lnl = nl;
-        lnf = nf;
-        lastscore = score;
-        lb = biggest;
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            if (t[i][j] == '1'){
+                x.push(i);
+                y.push(j);
 
-        first = -1;
-        last = -1;
-        for (int i = 0; i < n; i++){
-            if(a[i] == biggest && first == -1) first = i;
-            if(a[i] == biggest) last = i;
+                while (!v){
+                    score++;
+                    for (int k = 0; k < counter; k++){
+                        if (t[x.front()-1][y.front()] == '1' && t[x.front()][y.front()-1] == '1' && t[x.front()][y.front()+1] == '1'){
+                            x.push(x.front()-1);
+                            y.push(y.front());
+                            x.push(x.front());
+                            x.push(x.front());
+                            y.push(y.front()+1);
+                            y.push(y.front()-1);
+                            x.pop();
+                            y.pop();
+                        }
+                        else{
+                            v = true;
+                            break;
+                        }
+                    }
+                    counter*=3;
+                }
+                counter=1;
+                v = false;
+                while(x.empty()!=true){
+                    x.pop();
+                    y.pop();
+                }
+            }
         }
-        if (first != -1 && last != -1){
-            nf = min(nf, first);
-            nl = max(nl, last);
-            if(nf == -1) nf = first;
-            if(nl == -1) nl = last;
-        }
-
-        for (int i = nf; i <= nl; i++){
-            minnn = min(a[i], minnn);
-        }
-        if(biggest == minnn){
-            if(nl - nf < k) score = nl - nf + 1;
-            biggest--;
-        }
-        else{
-            biggest = minnn;
-        }
-        //cout << score << ' ' << biggest << ' ' << nf << ' ' << nl << '\n';
     }
-
-    cout << score;
-
-    /*
-    k2 = last - first;
-            for (int i = first; i < last; i++){
-                minnn = min(a[i], minnn);
-            }
-            nf = first;
-            nl = last;
-            for (int i = 0; i < first; i++){
-                if(a[i] >= minnn && nf == first) nf = first;
-            }
-            for (int i = last; i < n; i++){
-                if(a[i] >= minnn) nl = last;
-            }
-            if(nl - nf < k){
-                cout << nl - nf + 1; //?
-            }
-            else{
-                cout << -1;
-            }
-    
-    */
+    cout<<score;
 }
