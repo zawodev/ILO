@@ -84,7 +84,7 @@ def generate_dating():
 
 
 
-while user_input != 6:
+while user_input != 5:
 
     if user_input == 1:
         save_to_file()
@@ -94,16 +94,13 @@ while user_input != 6:
         generate_symbols()
     if user_input == 4:
         generate_dating()
-    if user_input == 5:
-        tochasmierdzi()
         
     print()
     print("1. Save To File")
     print("2. Translation Gen 1.")
     print("3. Generate Gen 1. Symbols")
     print("4. Generate Dating Data")
-    print("5. TochaSmierdiz")
-    print("6. Koniec")
+    print("5. Koniec")
 
     user_input = int(input("Give your input: "))
     print()
