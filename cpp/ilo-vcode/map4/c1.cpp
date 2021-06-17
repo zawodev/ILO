@@ -180,67 +180,14 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-int n, m, k;
-int x[1000111];
-int y[1000111];
-long long score = 1;
-int groups;
-map<pair<int, int>, pair<int, int>> R;
-map<pair<int, int>, bool> M;
+int n;
+int a[1000111];
 
-map<pair<int,int>, int> V;
-
-pair<int, int> Find(pair<int,int> w) {
-    if (R[w] == w) return w;
-    pair<int,int> rep = Find(R[w]);
-    R[w] = rep;
-    return R[w];
-}
-void Union(pair<int,int> w, pair<int,int> v) {
-    pair<int,int> rw = R[Find(w)];
-    pair<int,int> rv = Find(v);
-    if (rw != rv) {
-        R[rv] = rw;
-        //V[rw]++;
-        groups--;
-    }
-}
-unsigned long long silnia(unsigned int n) {
-    if(n > 1) return n * silnia(n - 1) % 1000000007;
-    else return 1;
-}
 int main() {
     iostream::sync_with_stdio(false);
 
-    cin >> n >> m >> k;
-    groups = k;
-    for (int i = 1; i <= k; i++){
-        cin >> x[i] >> y[i];
-        R[{x[i], y[i]}] = {x[i], y[i]};
+    cin >> n;
+    for (int i = 0; i < n; i++){
         
-        M[{x[i], y[i]}] = true;
     }
-    for (int i = 1; i <= k; i++){
-        if(M[{x[i] + 2, y[i] + 1}]) Union({x[i], y[i]}, {x[i] + 2,y[i] + 1});
-        if(M[{x[i] + 2, y[i] - 1}]) Union({x[i], y[i]}, {x[i] + 2,y[i] - 1});
-        if(M[{x[i] - 2, y[i] + 1}]) Union({x[i], y[i]}, {x[i] - 2,y[i] + 1});
-        if(M[{x[i] - 2, y[i] - 1}]) Union({x[i], y[i]}, {x[i] - 2,y[i] - 1});
-
-        if(M[{x[i] + 1, y[i] + 2}]) Union({x[i], y[i]}, {x[i] + 1,y[i] + 2});
-        if(M[{x[i] - 1, y[i] + 2}]) Union({x[i], y[i]}, {x[i] - 1,y[i] + 2});
-        if(M[{x[i] + 1, y[i] - 2}]) Union({x[i], y[i]}, {x[i] + 1,y[i] - 2});
-        if(M[{x[i] - 1, y[i] - 2}]) Union({x[i], y[i]}, {x[i] - 1,y[i] - 2});
-    }
-    for (int i = 1; i <= k; i++){
-        V[R[{x[i], y[i]}]]++;
-        //cout << R[{x[i], y[i]}].first << ' ' << R[{x[i], y[i]}].second << '\n';
-    }
-    for(auto v : V){
-        if(v.second > 1){
-            score *= silnia(v.second);
-            score %= 1000000007;
-        }
-        //cout << v.first.first << ' ' << v.first.second << ' ' << v.second << '\n';
-    }
-    cout << score;
 }
