@@ -182,12 +182,25 @@ int nwd(int x, int y)
 
 int n;
 int a[1000111];
+int b[1000111];
+
+bool can = true;
 
 int main() {
     iostream::sync_with_stdio(false);
 
     cin >> n;
     for (int i = 0; i < n; i++){
-        
+        cin >> a[i];
+        if(a[i] < n){
+            if(a[i] < (n-1) / 2) b[a[i]]++;
+            else b[n - 1 - a[i]]++;
+
+            if(b[a[i]] > 2 || (n-1-a[i] > 0 && b[n-1-a[i]] > 2)) can = false;
+        }
+        else can = false;
     }
+    if(n%2 == 1 && b[n/2] > 1) can = false;
+    if (can) cout<<"TAK";
+    else cout <<"NIE";
 }

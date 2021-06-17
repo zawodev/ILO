@@ -15,21 +15,23 @@ using namespace std;
 
 //=======================================
 
-int score = INT_MAX, n, m, k, STA, END, a, b;
-set <pair<int,int>> mojset;
-int odl[600000];
-int zrobiony[600000];
-pair <int,int> akt;
+int score = INT_MAX, n, m, k, STA, END, a, b, st, en;
+
 //=======================================
 struct graf
 {
-	int viz = 10;
+	bool viz = false;
 	vector<pair<int, int>> connects;
 	int odl;
 } * G;
 void StartUp(int n)
 {
 	G = new graf[n];
+}
+void UnVisitAll(){
+	for (int i = 0; i < m; i++){
+		G[i].viz = false;
+	}
 }
 void Connect(int a, int b, int c)
 {
@@ -41,7 +43,7 @@ void DFS(int x, int w)
 		score = min(score, w);
 	}
 
-	G[x].viz--;
+	G[x].viz = true;
 
 	for (int i = 0; i < G[x].connects.size(); i++)
 	{
@@ -51,7 +53,7 @@ void DFS(int x, int w)
 		}
 	}
 }
-void BFS(int x)
+int BFS(int x, int w)
 {
 	queue<int> kolejka;
 	kolejka.push(x);
@@ -61,6 +63,7 @@ void BFS(int x)
 	while (!kolejka.empty())
 	{
 		x = kolejka.front();
+		
 		kolejka.pop();
 		for (int i = 0; i < G[x].connects.size(); i++)
 		{
@@ -73,7 +76,9 @@ void BFS(int x)
 			}
 		}
 	}
+	return G[w].odl;
 }
+/*
 void Djikstra (int x){
 	odl[x]=0;  mojset.insert({0,x});
 	while (!mojset.empty()){
@@ -92,7 +97,7 @@ void Djikstra (int x){
     }
 	}
 }
-
+*/
 inline void putt(int n, bool first = true)
 {
 	if (first && n == 0)
@@ -263,7 +268,7 @@ int main() {
     cin >> STA >> END;
 
 	StartUp(n+5);
-	for (int i=0;i<600000;i++) odl[i] = INT_MAX;
+	//for (int i=0;i<600000;i++) odl[i] = INT_MAX;
 	for (int i = 0; i < m; i++){
 		cin>>a>>b;
 		Connect(a, b, 1);
@@ -271,14 +276,18 @@ int main() {
 	}
 	for (int i = 0; i < k; i++){
 		cin>>a>>b;
-		Connect(a, b, 0);
-		Connect(b, a, 0);
-		Djikstra(STA);
-		for (int i=0;i<600000;i++) zrobiony[i] = 0;
-		akt.first = 0; akt.second = 0;
-		G[a].connects.pop_back();
-		G[b].connects.pop_back();
+
+		int f1 = BFS(a, STA);
+		UnVisitAll();
+		int f2 = BFS(b, END);
+		UnVisitAll();
+		int f3 = BFS(a, END);
+		UnVisitAll();
+		int f4 = BFS(b, STA);
+		UnVisitAll();
+
+		cout << f1 << f2 << f3 << f4 << '\n';
+		score = min(score, min(f1 + f2, f3 + f4));
 	}
-	//Djikstra(STA);
-	cout<<odl[END];
+	cout << score;
 }
