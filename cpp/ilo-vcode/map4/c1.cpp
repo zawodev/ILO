@@ -180,54 +180,27 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-char t[3000][3000];
-int n, score, counter=1;
-bool v;
-queue<int> x, y;
+int n;
+int a[1000111];
+int b[1000111];
+
+bool can = true;
 
 int main() {
-    ios_base::sync_with_stdio(false);
+    iostream::sync_with_stdio(false);
+
     cin >> n;
-
     for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            cin >> t[i][j];
-        }
-    }
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            if (t[i][j] == '1'){
-                x.push(i);
-                y.push(j);
+        cin >> a[i];
+        if(a[i] < n){
+            if(a[i] < (n-1) / 2) b[a[i]]++;
+            else b[n - 1 - a[i]]++;
 
-                while (!v){
-                    score++;
-                    for (int k = 0; k < counter; k++){
-                        if (t[x.front()-1][y.front()] == '1' && t[x.front()][y.front()-1] == '1' && t[x.front()][y.front()+1] == '1'){
-                            x.push(x.front()-1);
-                            y.push(y.front());
-                            x.push(x.front());
-                            x.push(x.front());
-                            y.push(y.front()+1);
-                            y.push(y.front()-1);
-                            x.pop();
-                            y.pop();
-                        }
-                        else{
-                            v = true;
-                            break;
-                        }
-                    }
-                    counter*=3;
-                }
-                counter=1;
-                v = false;
-                while(x.empty()!=true){
-                    x.pop();
-                    y.pop();
-                }
-            }
+            if(b[a[i]] > 2 || (n-1-a[i] > 0 && b[n-1-a[i]] > 2)) can = false;
         }
+        else can = false;
     }
-    cout<<score;
+    if(n%2 == 1 && b[n/2] > 1) can = false;
+    if (can) cout<<"TAK";
+    else cout <<"NIE";
 }

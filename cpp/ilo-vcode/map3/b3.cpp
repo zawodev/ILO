@@ -180,54 +180,67 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-char t[3000][3000];
-int n, score, counter=1;
-bool v;
-queue<int> x, y;
+int n, m, k;
+int x[1000111];
+int y[1000111];
+long long score = 1;
+int groups;
+map<pair<int, int>, pair<int, int>> R;
+map<pair<int, int>, bool> M;
 
+map<pair<int,int>, int> V;
+
+pair<int, int> Find(pair<int,int> w) {
+    if (R[w] == w) return w;
+    pair<int,int> rep = Find(R[w]);
+    R[w] = rep;
+    return R[w];
+}
+void Union(pair<int,int> w, pair<int,int> v) {
+    pair<int,int> rw = R[Find(w)];
+    pair<int,int> rv = Find(v);
+    if (rw != rv) {
+        R[rv] = rw;
+        //V[rw]++;
+        groups--;
+    }
+}
+unsigned long long silnia(unsigned int n) {
+    if(n > 1) return n * silnia(n - 1) % 1000000007;
+    else return 1;
+}
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin >> n;
+    iostream::sync_with_stdio(false);
 
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            cin >> t[i][j];
-        }
+    cin >> n >> m >> k;
+    groups = k;
+    for (int i = 1; i <= k; i++){
+        cin >> x[i] >> y[i];
+        R[{x[i], y[i]}] = {x[i], y[i]};
+        
+        M[{x[i], y[i]}] = true;
     }
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            if (t[i][j] == '1'){
-                x.push(i);
-                y.push(j);
+    for (int i = 1; i <= k; i++){
+        if(M[{x[i] + 2, y[i] + 1}]) Union({x[i], y[i]}, {x[i] + 2,y[i] + 1});
+        if(M[{x[i] + 2, y[i] - 1}]) Union({x[i], y[i]}, {x[i] + 2,y[i] - 1});
+        if(M[{x[i] - 2, y[i] + 1}]) Union({x[i], y[i]}, {x[i] - 2,y[i] + 1});
+        if(M[{x[i] - 2, y[i] - 1}]) Union({x[i], y[i]}, {x[i] - 2,y[i] - 1});
 
-                while (!v){
-                    score++;
-                    for (int k = 0; k < counter; k++){
-                        if (t[x.front()-1][y.front()] == '1' && t[x.front()][y.front()-1] == '1' && t[x.front()][y.front()+1] == '1'){
-                            x.push(x.front()-1);
-                            y.push(y.front());
-                            x.push(x.front());
-                            x.push(x.front());
-                            y.push(y.front()+1);
-                            y.push(y.front()-1);
-                            x.pop();
-                            y.pop();
-                        }
-                        else{
-                            v = true;
-                            break;
-                        }
-                    }
-                    counter*=3;
-                }
-                counter=1;
-                v = false;
-                while(x.empty()!=true){
-                    x.pop();
-                    y.pop();
-                }
-            }
-        }
+        if(M[{x[i] + 1, y[i] + 2}]) Union({x[i], y[i]}, {x[i] + 1,y[i] + 2});
+        if(M[{x[i] - 1, y[i] + 2}]) Union({x[i], y[i]}, {x[i] - 1,y[i] + 2});
+        if(M[{x[i] + 1, y[i] - 2}]) Union({x[i], y[i]}, {x[i] + 1,y[i] - 2});
+        if(M[{x[i] - 1, y[i] - 2}]) Union({x[i], y[i]}, {x[i] - 1,y[i] - 2});
     }
-    cout<<score;
+    for (int i = 1; i <= k; i++){
+        V[R[{x[i], y[i]}]]++;
+        //cout << R[{x[i], y[i]}].first << ' ' << R[{x[i], y[i]}].second << '\n';
+    }
+    for(auto v : V){
+        if(v.second > 1){
+            score *= silnia(v.second);
+            score %= 1000000007;
+        }
+        //cout << v.first.first << ' ' << v.first.second << ' ' << v.second << '\n';
+    }
+    cout << score;
 }

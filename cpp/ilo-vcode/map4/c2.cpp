@@ -16,6 +16,58 @@ using namespace std;
 //=======================================
  
 //=======================================
+/*
+struct graf
+{
+	bool viz = false;
+	vector<int> connects;
+	int odl;
+} * G;
+void StartUp(int n)
+{
+	G = new graf[n];
+}
+void Connect(int a, int b)
+{
+	G[a].connects.push_back(b);
+}
+void DFS(int x, int y)
+{
+	G[x].viz = 1;
+
+	for (int i = 0; i < G[x].connects.size(); i++)
+	{
+		if (!G[G[x].connects[i]].viz)
+		{
+			DFS(G[x].connects[i], y + 1);
+		}
+	}
+}
+void BFS(int x)
+{
+
+	queue<int> kolejka;
+	kolejka.push(x);
+	G[x].odl = 0;
+	G[x].viz = 1;
+
+	while (!kolejka.empty())
+	{
+		x = kolejka.front();
+		kolejka.pop();
+		for (int i = 0; i < G[x].connects.size(); i++)
+		{
+			int y = G[x].connects[i];
+			if (!G[y].viz)
+			{
+				kolejka.push(y);
+				G[y].viz = 1;
+				G[y].odl = G[x].odl + 1;
+			}
+		}
+	}
+}
+*/
 inline void putt(int n, bool first = true)
 {
         if (first && n == 0)
@@ -180,54 +232,31 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-char t[3000][3000];
-int n, score, counter=1;
-bool v;
-queue<int> x, y;
+int n, k, a, b, t[1000111];
+int score;
+bool zero;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin >> n;
+    iostream::sync_with_stdio(false);
+    
+    cin >> n >> k;
+    for (int i = 0; i < n - 1; i++){
+        cin >> a >> b;
+        t[a]++;
+        t[b]++;
 
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            cin >> t[i][j];
+        if(t[a] > k + 1 || t[b] > k+1){
+            cout << 0;
+            return 0;
         }
     }
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            if (t[i][j] == '1'){
-                x.push(i);
-                y.push(j);
-
-                while (!v){
-                    score++;
-                    for (int k = 0; k < counter; k++){
-                        if (t[x.front()-1][y.front()] == '1' && t[x.front()][y.front()-1] == '1' && t[x.front()][y.front()+1] == '1'){
-                            x.push(x.front()-1);
-                            y.push(y.front());
-                            x.push(x.front());
-                            x.push(x.front());
-                            y.push(y.front()+1);
-                            y.push(y.front()-1);
-                            x.pop();
-                            y.pop();
-                        }
-                        else{
-                            v = true;
-                            break;
-                        }
-                    }
-                    counter*=3;
-                }
-                counter=1;
-                v = false;
-                while(x.empty()!=true){
-                    x.pop();
-                    y.pop();
-                }
+    if(!zero){
+        for (int i = 1; i <= n; i++){
+            if(t[i] <= k && t[i] > 0){
+                score++;
             }
         }
+        cout << score;
     }
-    cout<<score;
+    else cout << 0;
 }

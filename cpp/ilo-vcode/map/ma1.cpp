@@ -181,28 +181,21 @@ int nwd(int x, int y)
 }
  
 string s = "";
-int f = -1 , l = -1, score, n;
- 
+int c1, c2, n;
+long long score;
+vector<int> V;
+
 int main() {
     iostream::sync_with_stdio(false);
-        cin >> n;
+    cin >> n;
     cin >> s;
     for(int i = 0; i < n; i++){
-        if(s[i] == 'C' && f == -1) f = i;
-        if(s[i] == 'C') l = i;
+        if(s[i] == 'C') c1++;
     }
-    for(int i = 0; i < s.size(); i++){
-        if(i > f && i < l){
-            if(s[i] == 'B') {
-                if(abs(f-i) < abs(l-i)){
-                    score += abs(f-i);
-                    f++;
-                }
-                else{
-                    score += abs(f-i);
-                    l--;
-                }
-            }
+    for(int i = 0; i < n; i++){
+        if(s[i] == 'C') c2++;
+        else {
+            score += min(c2, c1 - c2);
         }
     }
     cout<<score;

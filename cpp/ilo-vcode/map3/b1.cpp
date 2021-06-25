@@ -180,54 +180,40 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-char t[3000][3000];
-int n, score, counter=1;
-bool v;
-queue<int> x, y;
+int a, b, c, d, c1, c2;
+int r1, r2, r3;
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin >> n;
+    iostream::sync_with_stdio(false);
 
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            cin >> t[i][j];
-        }
-    }
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            if (t[i][j] == '1'){
-                x.push(i);
-                y.push(j);
+    cin >> a >> b;
+    cin >> c >> d;
 
-                while (!v){
-                    score++;
-                    for (int k = 0; k < counter; k++){
-                        if (t[x.front()-1][y.front()] == '1' && t[x.front()][y.front()-1] == '1' && t[x.front()][y.front()+1] == '1'){
-                            x.push(x.front()-1);
-                            y.push(y.front());
-                            x.push(x.front());
-                            x.push(x.front());
-                            y.push(y.front()+1);
-                            y.push(y.front()-1);
-                            x.pop();
-                            y.pop();
-                        }
-                        else{
-                            v = true;
-                            break;
-                        }
-                    }
-                    counter*=3;
-                }
-                counter=1;
-                v = false;
-                while(x.empty()!=true){
-                    x.pop();
-                    y.pop();
-                }
-            }
-        }
+    int e = abs(a - c);
+    int f = abs(b - d);
+
+    r1 = a * a + b * b;
+    r2 = c * c + d * d;
+    r3 = e * e + f * f;
+
+    if(r1<r2) {
+        swap(r1, r2);
+        swap(a, c);
+        swap(b, d);
     }
-    cout<<score;
+    
+    if(a >= 0 && b > 0) c1 = 0;
+    else if(a > 0 && b <= 0) c1 = 1;
+    else if(a <= 0 && b < 0) c1 = 2;
+    else if(a < 0 && b >= 0) c1 = 3;
+
+    if(c >= 0 && d > 0) c2 = 0;
+    else if(c > 0 && d <= 0) c2 = 1;
+    else if(c <= 0 && d < 0) c2 = 2;
+    else if(c < 0 && d >= 0) c2 = 3;
+
+    //cout << r1 << ' ' << r2 << ' ' << r3 << ' ' << c1 << ' ' << c2 << '\n';
+    if(r1 + r2 == r3 && (c1+1)%4 == c2%4) cout<<"TAK";
+    else cout<<"NIE";
+    
 }

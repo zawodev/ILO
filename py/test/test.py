@@ -120,7 +120,12 @@ def generate_dating():
     print(arr_man)
 
 
+<<<<<<< HEAD
 while user_input != 6:
+=======
+
+while user_input != 5:
+>>>>>>> 868fa6a8345672b3f701e717df6274f5531d72c2
 
     if user_input == 1:
         save_to_file()
