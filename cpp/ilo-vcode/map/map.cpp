@@ -21,7 +21,7 @@ int score = INT_MAX, n, m, k, STA, END, a, b, st, en;
 struct graf
 {
 	bool viz = false;
-	vector<pair<int, int>> connects;
+	vector<int> connects;
 	int odl;
 } * G;
 void StartUp(int n)
@@ -29,32 +29,16 @@ void StartUp(int n)
 	G = new graf[n];
 }
 void UnVisitAll(){
-	for (int i = 0; i < m; i++){
+	for (int i = 1; i <= m; i++){
 		G[i].viz = false;
+		G[i].odl = 0;
 	}
 }
-void Connect(int a, int b, int c)
+void Connect(int a, int b)
 {
-	G[a].connects.push_back({c, b});
+	G[a].connects.push_back(b);
 }
-void DFS(int x, int w)
-{
-	if(x == END){
-		score = min(score, w);
-	}
-
-	G[x].viz = true;
-
-	for (int i = 0; i < G[x].connects.size(); i++)
-	{
-		if (G[G[x].connects[i].first].viz > 0)
-		{
-			DFS(G[x].connects[i].first, w + G[x].connects[i].second);
-		}
-	}
-}
-int BFS(int x, int w)
-{
+void BFS(int x){
 	queue<int> kolejka;
 	kolejka.push(x);
 	G[x].odl = 0;
@@ -67,7 +51,7 @@ int BFS(int x, int w)
 		kolejka.pop();
 		for (int i = 0; i < G[x].connects.size(); i++)
 		{
-			int y = G[x].connects[i].first;
+			int y = G[x].connects[i];
 			if (!G[y].viz)
 			{
 				kolejka.push(y);
@@ -76,7 +60,6 @@ int BFS(int x, int w)
 			}
 		}
 	}
-	return G[w].odl;
 }
 /*
 void Djikstra (int x){
@@ -267,27 +250,27 @@ int main() {
 	cin >> n >> m >> k;
     cin >> STA >> END;
 
-	StartUp(n+5);
+	StartUp(500050);
 	//for (int i=0;i<600000;i++) odl[i] = INT_MAX;
 	for (int i = 0; i < m; i++){
 		cin>>a>>b;
-		Connect(a, b, 1);
-		Connect(b, a, 1);
+		Connect(a, b);
+		Connect(b, a);
 	}
 	for (int i = 0; i < k; i++){
 		cin>>a>>b;
 
-		int f1 = BFS(a, STA);
+		BFS(a);
+		int f1 = G[STA].odl;
+		int f2 = G[END].odl;
 		UnVisitAll();
-		int f2 = BFS(b, END);
-		UnVisitAll();
-		int f3 = BFS(a, END);
-		UnVisitAll();
-		int f4 = BFS(b, STA);
+		BFS(b);
+		int f3 = G[STA].odl;
+		int f4 = G[END].odl;
 		UnVisitAll();
 
-		cout << f1 << f2 << f3 << f4 << '\n';
-		score = min(score, min(f1 + f2, f3 + f4));
+		//cout << f1 << f2 << f3 << f4 << '\n';
+		score = min(score, min(f1 + f4, f2 + f3));
 	}
 	cout << score;
 }

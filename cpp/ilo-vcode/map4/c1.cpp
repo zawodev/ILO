@@ -190,17 +190,27 @@ int main() {
     iostream::sync_with_stdio(false);
 
     cin >> n;
-    for (int i = 0; i < n; i++){
+    for (int i = 1; i <= n; i++){
         cin >> a[i];
-        if(a[i] < n){
-            if(a[i] < (n-1) / 2) b[a[i]]++;
-            else b[n - 1 - a[i]]++;
-
-            if(b[a[i]] > 2 || (n-1-a[i] > 0 && b[n-1-a[i]] > 2)) can = false;
+        if(a[i] >= n){
+                cout << "NIE";
+                return 0;
         }
-        else can = false;
+        else {
+                b[a[i]]++;
+        }
     }
-    if(n%2 == 1 && b[n/2] > 1) can = false;
-    if (can) cout<<"TAK";
-    else cout <<"NIE";
+    for (int i = 1; i <= n; i++){
+        if(b[i-1] > 0){
+                b[i-1]--;
+        }
+        else if(b[n-i] > 0){
+                b[n - i]--;
+        }
+        else{
+                cout << "NIE";
+                return 0;
+        }
+    }
+    cout<<"TAK";
 }
