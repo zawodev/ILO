@@ -12,9 +12,9 @@ clear = lambda: os.system('cls')
 user_input = 0
 
 key = 1640 #3969
-symbols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+symbols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'ą', 'ę', 'ś', 'ć', 'ź', 'ż', 'ń', 'ł', 'ó', 'Ą', 'Ę', 'Ś', 'Ć', 'Ź', 'Ż', 'Ń', 'Ł', 'Ó', ':',';', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '-', '/', '|', '{', '}', '[', ']', '?', '<', '>', ',', '.', '`', '~', ' ']
 
-n = 3 #dla n=3 calkiem spora tablica sie robi takze przemysl zmiane tutaj zeby dzialalo to inaczej i nieco szybciej
+n = 3 # dla n=3 calkiem spora tablica sie robi takze przemysl zmiane tutaj zeby dzialalo to inaczej i nieco szybciej
 n2 = 5 # zaw3pol size abcde
 n3 = 4 # zaw3pol size A8cD3
 
@@ -31,17 +31,17 @@ def save_to_file():
         line = file.readline()
         i+=1
 
-def zaw2pol():
+def zaw2pol(): #kazdy symbol 2wayer
     clear()
     txt_in = str(input("=============================================\n          Type Text to Translate:\n=============================================\n"))
-    while len(txt_in) % 3 != 0: txt_in += ' '
+    while len(txt_in) % n != 0: txt_in += ' '
     parts = [(txt_in[i:i+n]) for i in range(0, len(txt_in), n)]
-    #print(parts)
+    #print(len(paren))
 
     for i in range(0, int(len(txt_in) / n)):
         try: 
             index = paren.index(parts[i])
-            parts[i] = paren[(index + 74438) % len(paren)]
+            parts[i] = paren[(index + (int)(len(paren)/2)) % len(paren)]
         except:
             parts[i] = parts[i]
         
@@ -49,7 +49,7 @@ def zaw2pol():
     txt_out = "".join(parts)
     print(txt_out)
 
-def zaw3pol():
+def zaw3pol(): #tylko te w liscie code i decode rozne
     clear()
     txt_in = str(input("=============================================\n          Type Text to Translate:\n=============================================\n"))
     only_smol = int(input("1=code, 0=decode\n"))
@@ -81,7 +81,7 @@ def zaw3pol():
     print(txt_out)
 
 
-def generate_symbols(): #148876 => 74438 * 2
+def generate_symbols(): #randomizing every time sooo... if you do this old cyphers are kaput sadly
     clear()
     file = open("data4.json", "w")
     arr = []
@@ -118,9 +118,19 @@ def generate_dating():
     arr_man.sort()
     print(arr_wom)
     print(arr_man)
+def ceaser_cypher():
+    clear()
+    print("=============================================\n          Ceaser Cypher Cummer (CCC)\n=============================================")
+    nums = input("gib array: ")
+    nums = nums.split(" ")
+    output = ""
+    for i in range(-30, 30):
+        for j in range(0, len(nums)):
+            output += chr(int(nums[j]) + i)
+        output += "\n"
+    print(output)
 
-
-while user_input != 6:
+while user_input != 7:
 
     if user_input == 1:
         save_to_file()
@@ -132,14 +142,17 @@ while user_input != 6:
         generate_symbols()
     if user_input == 5:
         generate_dating()
+    if user_input == 6:
+        ceaser_cypher()
         
     print()
     print("1. Save To File")
     print("2. Translation Zaw2Pol")
     print("3. Translation Zaw3Pol")
-    print("4. Generate Gen 1. Symbols")
+    print("4. Generate Zaw2Pol Symbols")
     print("5. Generate Dating Data")
-    print("6. Koniec")
+    print("6. Ceaser Cypher Cummer")
+    print("7. Koniec")
 
     user_input = int(input("Give your input: "))
     print()
