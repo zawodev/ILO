@@ -16,7 +16,7 @@ using namespace std;
 //=======================================
  
 //=======================================
-inline void putt(int n, bool first = true)
+inline void putt(long long n, bool first = true)
 {
         if (first && n == 0)
                 putc_unlocked('0', stdout);
@@ -181,53 +181,28 @@ int nwd(int x, int y)
 }
 
 char t[3000][3000];
-int n, score, counter=1;
-bool v;
-queue<int> x, y;
+long long DP[3002][3002];
+long long n;
+long long score;
 
 int main() {
     ios_base::sync_with_stdio(false);
     cin >> n;
 
     for (int i = 0; i < n; i++){
+        string s = "";
+        cin >> s;
         for (int j = 0; j < n; j++){
-            cin >> t[i][j];
+            t[i][j] = s[j];
         }
     }
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            if (t[i][j] == '1'){
-                x.push(i);
-                y.push(j);
-
-                while (!v){
-                    score++;
-                    for (int k = 0; k < counter; k++){
-                        if (t[x.front()-1][y.front()] == '1' && t[x.front()][y.front()-1] == '1' && t[x.front()][y.front()+1] == '1'){
-                            x.push(x.front()-1);
-                            y.push(y.front());
-                            x.push(x.front());
-                            x.push(x.front());
-                            y.push(y.front()+1);
-                            y.push(y.front()-1);
-                            x.pop();
-                            y.pop();
-                        }
-                        else{
-                            v = true;
-                            break;
-                        }
-                    }
-                    counter*=3;
-                }
-                counter=1;
-                v = false;
-                while(x.empty()!=true){
-                    x.pop();
-                    y.pop();
-                }
+    for (int i = n; i > 0; i--){
+        for (int j = n; j > 0; j--){
+            if (t[i-1][j-1] == '1'){
+                DP[i][j] = min(DP[i + 1][j], min(DP[i + 1][j - 1], DP[i + 1][j + 1])) + 1;
+                score += DP[i][j];
             }
         }
     }
-    cout<<score;
+    cout << score;
 }

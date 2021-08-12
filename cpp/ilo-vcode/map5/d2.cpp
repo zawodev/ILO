@@ -180,9 +180,8 @@ int nwd(int x, int y)
     return nwd(y,x%y);
 }
 
-int n, m;
-int a[1000111];
-int b[1000111];
+int n, m, a, b, score;
+int x[1000111];
 
 int main() {
     iostream::sync_with_stdio(false);
@@ -190,6 +189,13 @@ int main() {
     cin >> n >> m;
 
     for (int i = 0; i < n; i++){
-        cin >> a[i] >> b[i];
+        cin >> a >> b;
+        for (int j = 1; j <= m; j++){
+            if(j%a == 0 && j%b == 0){
+                x[j]++;
+                score = max(score, x[j]);
+            }
+        }
     }
+    cout << score;
 }

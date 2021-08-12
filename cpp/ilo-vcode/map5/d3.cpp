@@ -36,13 +36,4 @@ int main()
                 score = max(score, c);
         }
         cout << score;
-        /*for (int i = 0; i < n; i++)
-        {
-                cout << "Reszta: " << i << " - ";
-                for (auto j : v[i])
-                {
-                        cout << j << ' ';
-                }
-                cout << "\n";
-        }/*/
 }
