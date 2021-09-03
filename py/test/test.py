@@ -11,8 +11,12 @@ with open("data4.json", 'r') as jsonfile:
 clear = lambda: os.system('cls')
 user_input = 0
 
-key = 1640 #3969
-symbols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'ą', 'ę', 'ś', 'ć', 'ź', 'ż', 'ń', 'ł', 'ó', 'Ą', 'Ę', 'Ś', 'Ć', 'Ź', 'Ż', 'Ń', 'Ł', 'Ó', ':',';', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '-', '/', '|', '{', '}', '[', ']', '?', '<', '>', ',', '.', '`', '~', ' ']
+#seed = 'zawo' - main seed
+symbols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 
+           'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 
+           '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'ą', 'ę', 'ś', 'ć', 'ź', 'ż', 'ń', 'ł', 'ó', 'Ą', 'Ę', 'Ś', 'Ć', 'Ź', 'Ż', 'Ń', 'Ł', 'Ó',
+           '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', '{', ']', '}', '|', ':', ';', '<', ',', '>', '.', '?', '/', '`', '~', '\\', ' ']
+            #musi byc parzysty len(paren)
 
 n = 3 # dla n=3 calkiem spora tablica sie robi takze przemysl zmiane tutaj zeby dzialalo to inaczej i nieco szybciej
 n2 = 5 # zaw3pol size abcde
@@ -22,14 +26,20 @@ sym2 = [' ', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n
 sym3 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', ' ']
 
 def save_to_file():
+    clear()
     file = open("input.txt", "r")
     file2 = open("output.txt", "w")
     line = file.readline()
-    i = 1
+    lines = []
     while (line != ""):
-        file2.write((str)(i) + " " + line)
+        line = line.split(" ")
+        lines.append((line[2], line[1], line[0]))
         line = file.readline()
-        i+=1
+    lines.sort(reverse=True)
+    while (lines):
+        line = lines.pop()
+        file2.write(line[2] + " " + line[1] + " " + line[0])
+    print("=============================================\n       Input Saved To File Successfully!\n=============================================")
 
 def zaw2pol(): #kazdy symbol 2wayer
     clear()
@@ -41,7 +51,7 @@ def zaw2pol(): #kazdy symbol 2wayer
     for i in range(0, int(len(txt_in) / n)):
         try: 
             index = paren.index(parts[i])
-            parts[i] = paren[(index + (int)(len(paren)/2)) % len(paren)]
+            parts[i] = paren[(index + (int)(len(paren)/2)) % (int)(len(paren))]
         except:
             parts[i] = parts[i]
         
@@ -82,7 +92,9 @@ def zaw3pol(): #tylko te w liscie code i decode rozne
 
 
 def generate_symbols(): #randomizing every time sooo... if you do this old cyphers are kaput sadly
+    global paren
     clear()
+    seed = str(input("=============================================\n             Provide New Seed:\n=============================================\n"))
     file = open("data4.json", "w")
     arr = []
     for i in range(0, len(symbols)):
@@ -90,10 +102,14 @@ def generate_symbols(): #randomizing every time sooo... if you do this old cyphe
             for k in range(0, len(symbols)):
                 if symbols[i] != ' ' or symbols[j] != ' ' or symbols[k] != ' ': 
                     arr.append(str(symbols[i] + symbols[j] + symbols[k]))
-    #txt = txt[:len(txt)-2] + ']'
+    random.seed(seed)
     random.shuffle(arr)
     txt = str(arr)
     file.write(txt.replace("'", '"'))
+
+    with open("data4.json", 'r') as jsonfile:
+        paren = json.loads(jsonfile.read())
+        
     print("=============================================\n       Symbols Generated Successfully!\n=============================================")
 
 def generate_dating():
