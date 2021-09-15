@@ -15,7 +15,7 @@ using namespace std;
 
 //=======================================
 
-int n, a[1000111], anus, score[1000111], f1, l1;
+int n, a[1000111], anus, score[1000111], f1, l1, k = -1;
 
 //=======================================
  
@@ -27,6 +27,8 @@ int main() {
     cin >> n;
     for (int i = 1; i <= n; i++){
         cin >> a[i];
+        if(a[i] == 1)
+            k = 0;
         if(a[i] == 0){
             if(a[i-1] == 1) score[i] = score[i - 1] + 1;
             else score[i] = score[i-1];
@@ -38,5 +40,5 @@ int main() {
         }
         //cout << score[i] << '\n';
     }
-    cout << score[l1] - score[f1] + 1;
+    cout << score[l1] - score[f1] + 1 +k;
 }

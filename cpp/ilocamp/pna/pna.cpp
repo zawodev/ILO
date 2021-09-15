@@ -15,10 +15,10 @@ using namespace std;
 
 //=======================================
 
-int n, m, score;
-map<int, int> t[100];
+int n, m, score = INT_MAX;
+map<int, map<int, int>> t;
 int best[1000111];
-string s;
+string s[1000111];
 
 //=======================================
  
@@ -29,15 +29,20 @@ int main() {
 
     cin >> n >> m;
     for (int i = 0; i < n; i++){
-        cin >> s;
+        cin >> s[i];
         for (int j = 0; j < m; j++){
-            int chr = (int)(s[j] - 'a');
+            int chr = (int)(s[i][j] - 'a');
             t[chr][j]++;
-            best[j] = max(best[j], t[chr][j]);
+            //best[j] = max(best[j], t[chr][j]);
         }
     }
-    for (int j = 0; j < m; j++){
-        score += n - best[j];
+    for (int i = 0; i < n; i++){
+        int suma = 0;
+        for (int j = 0; j < m; j++){
+            int chr = (int)(s[i][j] - 'a');
+            suma += n - t[chr][j];
+        }
+        score = min(score, suma);
     }
     cout << score;
 }

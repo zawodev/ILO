@@ -13,6 +13,11 @@ using namespace std;
 #define one first
 #define two second
 
+int n,m,a,b;
+int jed,dwa,men,kob;
+vector <int> t[1000111];
+int pom[1000111][2];
+
 int parent[1000111];
 
 int Find(int i)
@@ -39,31 +44,19 @@ void DFS (int x){
     if (pom[x][1] == 0){
         pom[x][1] = 1;
 
-        if(pom[x][0] == 1){
-            jed++;
-        }
-        else{
-            dwa++;
-        }
-        if (x % 2 == 0){
-            kob++;
-        }
-        else{
-            men++;
-        }
-        
-        for (int i = 0; i < (int)(t[x].size()); i++){
-            DFS(t[x][i]);
-        }
+        if(pom[x][0] == 1) jed++;
+        else dwa++;
+
+        if (x % 2 == 0) kob++;
+        else men++;
+
+        for (int i = 0; i < (int)(t[x].size()); i++) DFS(t[x][i]);
     }
 }
 
 //=======================================
 
-int n,m,a,b;
-int jed,dwa,men,kob;
-vector <int> t[1000000];
-int pom[1000000][2];
+
 
 //=======================================
  
@@ -80,6 +73,10 @@ int main(){
         t[b].push_back(a);
     }
     for (int i = 1; i <= n; i++){
+        jed=0;
+        dwa=0;
+        men=0;
+        kob=0;
         if (pom[i][1] == 0){
             DFS(i);
         }
@@ -87,10 +84,6 @@ int main(){
             cout<<"NIE";
             return 0;
         }
-        jed=0;
-        dwa=0;
-        men=0;
-        kob=0;
     }
     cout<<"TAK";
 }
