@@ -12,7 +12,7 @@ using namespace std;
  
 #define one first
 #define two second
- 
+
 //=======================================
 
 int n, t[1000111], p;
