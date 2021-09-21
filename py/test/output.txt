@@ -1,32 +1,32 @@
-01. piotr białek
-02. jakub borsuk
-03. patryk bura
-04. monika chomczyk
-05. anna cukrowska
-06. łukasz czarniecki
-07. kamil dobkowski
-08. bartosz fryska
-09. wojtek kosierkiewicz
-10. michał kozłowski
-11. paweł kozłowski
-12. piotr marszalik
-13. patrycja matuk
-14. mateusz ostaszewski
-15. szymon pawłowski
-16. grzegorz pawłuszewicz
-17. marcin piekutowski
-18. łukasz piekutowski
-19. hubert piskorz
-20. przemysław popowski
-21. bartek puciłowski
-22. adam rogowski
-23. stanisław rybałtowski
-24. michał sadowski
-25. kuba sierocki
-26. julia sołowiej
-27. paweł sosnowski
-28. aleksander stepaniuk
-29. ada szczuka
-30. magdalena sztok
-31. antonina szwarc
-32. miłosz tomulewicz
+01. piotr białek ISTJ
+02. jakub borsuk ENTP 
+03. patryk bura ISTP
+04. monika chomczyk ISTJ
+05. anna cukrowska INTJ
+06. łukasz czarniecki INFP
+07. kamil dobkowski ENTJ
+08. bartosz fryska ESFP
+09. wojtek kosierkiewicz ESTP
+10. michał kozłowski ISTJ?
+11. paweł kozłowski ISTP
+12. piotr marszalik ENTP
+13. patrycja matuk ESTJ
+14. mateusz ostaszewski ENFJ
+15. szymon pawłowski ESFJ
+16. grzegorz pawłuszewicz ISFJ
+17. marcin piekutowski INTP
+18. łukasz piekutowski INTP
+19. hubert piskorz ESFP
+20. przemysław popowski ESFJ
+21. bartek puciłowski INTJ
+22. adam rogowski INTP
+23. stanisław rybałtowski INFP
+24. michał sadowski ISFP
+25. kuba sierocki ISFJ
+26. julia sołowiej ISFP
+27. paweł sosnowski ISTJ
+28. aleksander stepaniuk INTJ
+29. ada szczuka INFJ
+30. magdalena sztok ISTP
+31. antonina szwarc ENFP
+32. miłosz tomulewicz INFJ
