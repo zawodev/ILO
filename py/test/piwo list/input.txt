@@ -1,0 +1,33 @@
+_nazwa _ocena1 _ocena2 _ocena3 _ocena4 _ocena5 _ocena6 _ocena_średnia _cena _ocena_średnia/cena
+
+kustosz_mocny
+książece_czerwone
+żubr
+żywiec_biały
+
+lech
+namysłów
+beck
+mocna_7
+
+zatecky
+zwierzynieckie
+piast wrocławski
+krusovice
+pilsner
+
+specjal
+grolsh
+warka
+harnas
+tyskie
+heineken?
+
+zywiec_jasny
+corona_extra
+perła_export
+
+okocim
+buha
+książece_irish
+mocne_kuflowe

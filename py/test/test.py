@@ -41,6 +41,12 @@ def save_to_file():
         file2.write(line[2] + " " + line[1] + " " + line[0])
     print("=============================================\n       Input Saved To File Successfully!\n=============================================")
 
+def sort_piwo_list():
+    clear()
+    file = open("piwo list/input.txt", 'r')
+    file2 = open("piwo list/output.txt", 'w')
+
+
 def zaw2pol(): #kazdy symbol 2wayer
     clear()
     txt_in = str(input("=============================================\n          Type Text to Translate:\n=============================================\n"))

@@ -1,1 +1,1 @@
-instrukcje
+przyklad
