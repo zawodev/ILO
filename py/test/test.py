@@ -1,4 +1,4 @@
-from math import sqrt
+from math import fabs, sqrt
 import os
 import json
 import random
@@ -45,6 +45,16 @@ def sort_piwo_list():
     clear()
     file = open("piwo list/input.txt", 'r')
     file2 = open("piwo list/output.txt", 'w')
+    line = file.readline()
+    lines = []
+    while (line != ""):
+        line = line.split(' ')
+        lines.append((line))
+        while (line != ""): line = file.readline()
+    lines.sort(reverse=True)
+    while (lines):
+        line = lines.pop()
+        file2.write(''.join(line))
 
 
 def zaw2pol(): #kazdy symbol 2wayer
@@ -154,7 +164,7 @@ def ceaser_cypher():
         output += "\n"
     print(output)
 
-while user_input != 7:
+while user_input != 8:
 
     if user_input == 1:
         save_to_file()
@@ -168,6 +178,8 @@ while user_input != 7:
         generate_dating()
     if user_input == 6:
         ceaser_cypher()
+    if user_input == 7:
+        sort_piwo_list()
         
     print()
     print("1. Save To File")
@@ -176,7 +188,8 @@ while user_input != 7:
     print("4. Generate Zaw2Pol Symbols")
     print("5. Generate Dating Data")
     print("6. Ceaser Cypher Cummer")
-    print("7. Koniec")
+    print("7. Print Piwo List")
+    print("8. Koniec")
 
     user_input = int(input("Give your input: "))
     print()
