@@ -20,9 +20,12 @@ using namespace std;
 
 //=======================================
 
-long long n, p, score;
-long long w[1000003], v[1000003];
-long long D[2][1000003];
+long long p, w[103];
+int n, v[103];
+map<long long, int> D;
+
+//jak lecisz od tylu to kazdy przedmiot tylko raz
+//jak lecisz od przodu to kazdy przedmiot nieskonczenie wiele razy
 
 int main() {
     iostream::sync_with_stdio(false);
@@ -32,20 +35,12 @@ int main() {
         cin >> w[i] >> v[i];
     }
     for (int i = 1; i <= n; i++){
-        for (int j = 1; j <= p; j++){
-            if (w[i] > j){
-                D[i%2][j] = D[(i - 1)%2][j];
-            }
-            else{
-                D[i%2][j] = max(D[(i - 1)%2][j], D[(i - 1)%2][j - w[i]] + v[i]);
-            }
+        for (int j = p; j >= w[i]; j--){
+            D[j] = max(D[j], D[j - w[i]] + v[i]);
         }
     }
-    /*for (int i = 1; i <= n; i++){
-        for (int j = 1; j <= p; j++){
-            cout << D[i][j] << ' ';
-        }
-        cout << '\n';
-    }*/
-    cout << D[n%2][p];
+    for (int j = 1; j <= p; j++){
+        cout << D[j] << ' ';
+    }
+    cout << D[p];
 }
