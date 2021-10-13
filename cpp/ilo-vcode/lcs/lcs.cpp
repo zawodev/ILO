@@ -21,16 +21,18 @@ using namespace std;
 //=======================================
 
 string a, b;
-string D[3000][3000];
+int D[3000][3000];
 
 int main() {
     iostream::sync_with_stdio(false);
     cin >> a >> b;
 
     int n = a.size();
+    int m = b.size();
     for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-        
+        for (int j = 0; j < m; j++){
+            if(a[i]==b[i]) D[i+1][j+1] = D[i][j] + 1;
+            else D[i+1][j+1] = max (D[i+1][j], D[i][j+1]);
         }
     }
     //https://eduinf.waw.pl/inf/alg/001_search/0057.php
