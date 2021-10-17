@@ -39,23 +39,7 @@ def save_to_file():
     while (lines):
         line = lines.pop()
         file2.write(line[2] + " " + line[1] + " " + line[0])
-    print("=============================================\n       Input Saved To File Successfully!\n=============================================")
-
-def sort_piwo_list():
-    clear()
-    file = open("piwo list/input.txt", 'r')
-    file2 = open("piwo list/output.txt", 'w')
-    line = file.readline()
-    lines = []
-    while (line != ""):
-        line = line.split(' ')
-        lines.append((line))
-        while (line != ""): line = file.readline()
-    lines.sort(reverse=True)
-    while (lines):
-        line = lines.pop()
-        file2.write(''.join(line))
-
+    print("=============================================\n       Input Saved To File Successfully!\n=============================================\n")
 
 def zaw2pol(): #kazdy symbol 2wayer
     clear()
@@ -126,11 +110,11 @@ def generate_symbols(): #randomizing every time sooo... if you do this old cyphe
     with open("data4.json", 'r') as jsonfile:
         paren = json.loads(jsonfile.read())
         
-    print("=============================================\n       Symbols Generated Successfully!\n=============================================")
+    print("=============================================\n       Symbols Generated Successfully!\n=============================================\n")
 
 def generate_dating():
     clear()
-    print("=============================================\n            Dating Data Symulator\n=============================================")
+    print("=============================================\n            Dating Data Symulator\n=============================================\n")
     num = int(input("Man or Woman Count: "))
     arr_wom = []
     arr_man = []
@@ -154,7 +138,7 @@ def generate_dating():
     
 def ceaser_cypher():
     clear()
-    print("=============================================\n          Ceaser Cypher Cummer (CCC)\n=============================================")
+    print("=============================================\n          Ceaser Cypher Cummer (CCC)\n=============================================\n")
     nums = input("gib array: ")
     nums = nums.split(" ")
     output = ""
@@ -164,24 +148,57 @@ def ceaser_cypher():
         output += "\n"
     print(output)
 
-while user_input != 8:
+def sort_piwo_list():
+    clear()
+    file = open("piwo list/input.txt", 'r')
+    file2 = open("piwo list/output.txt", 'w')
+    line = file.readline()
+    lines = []
+    while (line != ""):
+        line = line.split(' ')
+        lines.append((line))
+        while (line != ""): line = file.readline()
+    lines.sort(reverse=True)
+    while (lines):
+        line = lines.pop()
+        file2.write(''.join(line))
 
-    if user_input == 1:
-        save_to_file()
-    if user_input == 2:
-        zaw2pol()
-    if user_input == 3:
-        zaw3pol()
-    if user_input == 4:
-        generate_symbols()
-    if user_input == 5:
-        generate_dating()
-    if user_input == 6:
-        ceaser_cypher()
-    if user_input == 7:
-        sort_piwo_list()
-        
-    print()
+def montage_price_counter():
+    clear()
+    print("=============================================\n          Cennik za Montaż Video\n=============================================\n")
+    a = int(input("Podaj długość materiału wejściowego (min): "))
+    b = int(input("Podaj długość materiału wyjściowego (min): "))
+    c = int(input("1. skrót wydarzeń (np wesele, wyjscie na koncert lub mecz, vlog)\n2. teledysk (głównie muzyczny, postprocessing, dopasowanie cięć do melodii itd.)\n3. odcinek serii (np gameplay)\n4. animowana prezentacja historii/informacji\n5. film fabularny\n"))
+
+    #match c:
+    #    case '1':
+
+
+    print(a*b)
+    c = input("press any button to exit: ")
+
+while user_input != 'exit':
+
+    clear()
+    match user_input:
+        case '1':
+            save_to_file()
+        case '2':
+            zaw2pol()
+        case '3':
+            zaw3pol()
+        case '4':
+            generate_symbols()
+        case '5':
+            generate_dating()
+        case '6':
+            ceaser_cypher()
+        case '7':
+            sort_piwo_list()
+        case '8':
+            montage_price_counter()
+
+    print("=============================================\n            My Main Menu (MMM)\n=============================================\n")
     print("1. Save To File")
     print("2. Translation Zaw2Pol")
     print("3. Translation Zaw3Pol")
@@ -189,7 +206,8 @@ while user_input != 8:
     print("5. Generate Dating Data")
     print("6. Ceaser Cypher Cummer")
     print("7. Print Piwo List")
-    print("8. Koniec")
+    print("8. Montage Price Counter")
+    print("\nor type 'exit' to exit the program\n")
 
-    user_input = int(input("Give your input: "))
+    user_input = input("Give your input: ")
     print()
