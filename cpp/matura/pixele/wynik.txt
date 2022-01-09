@@ -1,0 +1,4 @@
+6.1 Min: 7, Max: 221
+6.2 Nalezy usunac 149 wierszy.
+6.3 Ilosc pikseli kontrastujacych wynosi: 310
+6.4 Najdluzszy ciag: 5
