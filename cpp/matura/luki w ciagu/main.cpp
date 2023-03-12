@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <math.h>
+#include <algorithm>
 using namespace std;
 
 int main(){
@@ -31,7 +32,7 @@ int main(){
     dl = maxdl = 1;
     il = maxil = 1;
     for (int i = 2; i < n; i++){
-        if(luka[i] != luka[i]){
+        if(luka[i] != luka[il]){
             if(dl > maxdl){
                 maxdl = dl;
                 maxil = il;
@@ -48,4 +49,35 @@ int main(){
     cout << "Dlugosc maksymalnego ciagu regularnego:" << maxdl + 1 << '\n';
     cout << "Poczatek: " << tab[maxil - 1] << '\n';
     cout << "Koniec: " << tab[maxil - 1 + maxdl] << '\n';
+
+    sort(luka + 1, luka + n);
+    //for (int i = 1; i < n; i++) cout << luka[i] <<' ';
+
+    int maxk, k;
+    int lu = luka[1];
+    maxk = k = 1;
+    for (int i = 2; i<n; i++){
+        if (luka[i] != lu){
+            if (k > maxk) maxk = k;
+            lu = luka[i];
+            k = 0;
+        }
+        k++;
+    }
+    if (k > maxk) maxk = k;
+
+    cout << "Krotnosc najczestszej luki: " << maxk << '\n';
+    cout << "Luki powtarzajace sie najczesciej: ";
+
+    k = 1;
+    lu = luka[1];
+    for (int i = 2; i<n; i++){
+        if (luka[i] != lu){
+            if (k == maxk) cout << lu << ' ';
+            lu = luka[i];
+            k = 0;
+        }
+        k++;
+    }
+    if (k == maxk) cout << lu << ' ';
 }

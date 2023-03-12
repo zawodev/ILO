@@ -1,7 +1,8 @@
-from math import fabs, sqrt
+from math import fabs, floor, sqrt
 import os
 import json
 import random
+import time
 import math
 from sys import winver
 
@@ -177,6 +178,34 @@ def montage_price_counter():
     print(a*b)
     c = input("press any button to exit: ")
 
+def findnumber():
+    clear()
+    start = time.time()
+    wyn = ''
+    for i in range(0, 1000000):
+        n = i
+        nums = []
+        mno = 1
+        dod = 0
+        while n>0:
+            nums.append(n%10)
+            #if(n%10 == 1): break
+            n/=10
+            n = math.floor(n)
+        else:
+            for j in range(0, len(nums)):
+                mno *= nums[j]
+                dod += nums[j]
+            if(mno == dod * 2):
+                wyn += str(i) + ', '
+            #continue
+        continue 
+    stop = time.time()
+    
+    print(wyn)
+    print(stop - start)
+    #c = input("press any button to exit: ")
+
 while user_input != 'exit':
 
     clear()
@@ -197,6 +226,8 @@ while user_input != 'exit':
             sort_piwo_list()
         case '8':
             montage_price_counter()
+        case '9':
+            findnumber()
 
     print("=============================================\n            My Main Menu (MMM)\n=============================================\n")
     print("1. Save To File")
@@ -207,6 +238,7 @@ while user_input != 'exit':
     print("6. Ceaser Cypher Cummer")
     print("7. Print Piwo List")
     print("8. Montage Price Counter")
+    print("9. Find Number")
     print("\nor type 'exit' to exit the program\n")
 
     user_input = input("Give your input: ")
