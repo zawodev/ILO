@@ -1,4 +1,5 @@
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Main {
@@ -18,6 +19,40 @@ public class Main {
         for(int i = 0; i < n; i++){
             drawPyramid(i,n-i);
         }
+    }
+    public static void drawAFigure2(int n, int i){
+        if(i == n) return;
+        drawPyramid(i, n-i);
+        drawAFigure2(n, i+1);
+    }
+    //shift or alg lub szukanie wzorca w tekscie + zlozonosc jego zapisac
+    //swap na jednym stringu
+    //wzorzec projektowy strategia zeby przelaczac miedzy wzorcami
+    public static String pairSwap2(String text){
+        ArrayList<String> words = new ArrayList<>();
+        String lastWord = "";
+        for (int i = 0; i < text.length(); i++) {
+            if(text.charAt(i) == ' '){
+                words.add(lastWord);
+                lastWord = "";
+            }
+            else
+                lastWord += text.charAt(i);
+        }
+        for (int i = 0; i < words.size(); i++) {
+            String word = words.get(i);
+            String key = "=";
+            int equalsSignPos = shift_or(word, key);
+            word += key;
+            if(equalsSignPos >= 0) {
+                for(int j = 0; j < equalsSignPos; j++){
+                    word += word.charAt(0);
+                    word.substring(1);
+                }
+            }
+        }
+        text = String.join(" ", words);
+        return text;
     }
     public static String pairSwap(String text) {
         String key = "[ ,.:;?/!]";
@@ -74,6 +109,30 @@ public class Main {
 
         return true;
     }
+    public static int shift_or(String t, String p) {
+        int m = p.length();//length of pattern.
+        long[] pattern_mask = new long[256];//creation of array.
+        long R = ~1;
+
+        if (m == 0)
+            return -1;//If no pattern has been given.
+        if (m >63) {
+            return -1;
+        }
+        for (int i = 0; i <=255; ++i){
+            pattern_mask[i] = ~0;//initializing pattern mask array.
+        }
+        for (int i = 0; i < m; ++i){
+            pattern_mask[p.charAt(i)] &= ~(1L << i);
+        }
+        for (int i = 0; i < t.length(); ++i) {
+            R |= pattern_mask[t.charAt(i)];
+            R <<= 1;
+            if ((R & (1L << m)) == 0)
+                return i - m + 1;
+        }
+        return -1;
+    }
     public static void printPyramid(String exNum, int n, int h){
         System.out.println("\nZAD " + exNum + ", n: " + n + ", h: " + h);
         drawPyramid(n, h);
@@ -81,9 +140,10 @@ public class Main {
     public static void printFigure(String exNum, int n){
         System.out.println("\nZAD " + exNum + ", n: " + n);
         drawAFigure(n);
+        //drawAFigure2(n, 0);
     }
     public static void printPair(String input){
-        String output = pairSwap(input);
+        String output = pairSwap2(input);
         System.out.println(input);
         System.out.println(output+"\n");
     }
@@ -104,9 +164,9 @@ public class Main {
         System.out.println("\n========================\nZAD 2\n========================");
 
         String input1 = "Litw0=0jczyzno moja, Ty jestes jak zdr0w13, ile C13=c3n1c, t3n ty1k0 si3 d0wie=_kt0 C13 stracil.";
-        String input2 = "ania=makota,kot=_maanie co=jaj, abc=def=ghi.";
-        String input3 = "_nia=makota, kot=maanie co=jaj, 1abc=def=ghi....";
-        String input4 = "4nia=makota,kot=ma _anie co=jaj, abc=1def=ghi";
+        String input2 = "ania=makota,kot=_maanie KA=jak";
+        String input3 = "_nia=makota, kot=ma?anie 1ka=_oaak";
+        String input4 = "4nia=makota,kot=ma _anie _1ka=Ja1k";
 
         printPair(input1);
         printPair(input2);
