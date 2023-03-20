@@ -2,7 +2,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Main {
+public class Labs1 {
     public static void drawPyramid(int n, int h){
         for(int i = 0; i < h; i++){
             String s = "";
@@ -20,15 +20,20 @@ public class Main {
             drawPyramid(i,n-i);
         }
     }
-    public static void drawAFigure2(int n, int i){
+    public static void drawAFigure2(int n, int i){ //rekurencyjny
         if(i == n) return;
         drawPyramid(i, n-i);
         drawAFigure2(n, i+1);
     }
+
+
     //shift or alg lub szukanie wzorca w tekscie + zlozonosc jego zapisac
     //swap na jednym stringu
     //wzorzec projektowy strategia zeby przelaczac miedzy wzorcami
-    public static String pairSwap2(String text){
+    public static String SwapWords(String text, String key){
+        return text;
+    }
+    public static String Exercise2(String text){
         ArrayList<String> words = new ArrayList<>();
         String lastWord = "";
         for (int i = 0; i < text.length(); i++) {
@@ -36,19 +41,25 @@ public class Main {
                 words.add(lastWord);
                 lastWord = "";
             }
-            else
+            else {
                 lastWord += text.charAt(i);
+                if (i == text.length() - 1) words.add(lastWord);
+            }
         }
         for (int i = 0; i < words.size(); i++) {
             String word = words.get(i);
+            //String key = "e=ni";
             String key = "=";
             int equalsSignPos = shift_or(word, key);
-            word += key;
-            if(equalsSignPos >= 0) {
-                for(int j = 0; j < equalsSignPos; j++){
-                    word += word.charAt(0);
-                    word.substring(1);
+            if(equalsSignPos > 0) {
+                word += key;
+                if (equalsSignPos >= 0) {
+                    for (int j = 0; j < equalsSignPos; j++) {
+                        word = (word + word.charAt(0)).substring(1);
+                    }
                 }
+                word = word.substring(key.length());
+                words.set(i, word);
             }
         }
         text = String.join(" ", words);
@@ -142,8 +153,8 @@ public class Main {
         drawAFigure(n);
         //drawAFigure2(n, 0);
     }
-    public static void printPair(String input){
-        String output = pairSwap2(input);
+    public static void printExercise2(String input){
+        String output = Exercise2(input);
         System.out.println(input);
         System.out.println(output+"\n");
     }
@@ -163,14 +174,17 @@ public class Main {
 
         System.out.println("\n========================\nZAD 2\n========================");
 
-        String input1 = "Litw0=0jczyzno moja, Ty jestes jak zdr0w13, ile C13=c3n1c, t3n ty1k0 si3 d0wie=_kt0 C13 stracil.";
-        String input2 = "ania=makota,kot=_maanie KA=jak";
-        String input3 = "_nia=makota, kot=ma?anie 1ka=_oaak";
-        String input4 = "4nia=makota,kot=ma _anie _1ka=Ja1k";
+        String input1 = "WOW ale to bylo ciekawe=interesujace doswiadczenie";
+        String input2 = "jak to jest byc skryba dobrze=nie ma tak ze dobrze albo nie dobrze";
+        String input3 = "halo halo tu polskie=radio radio=pio pio slowikowe radio";
+        String input4 = "dzien=dobry halo=malo shiftuje or=nie shitfuje oto jest pytanie";
 
-        printPair(input1);
-        printPair(input2);
-        printPair(input3);
-        printPair(input4);
+        printExercise2(input1);
+        printExercise2(input2);
+        printExercise2(input3);
+        printExercise2(input4);
+
+        String s = "ABCDEF";
+        System.out.println((s + s.charAt(0)).substring(1));
     }
 }
