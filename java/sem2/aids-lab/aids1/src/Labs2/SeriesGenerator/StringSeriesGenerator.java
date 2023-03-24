@@ -2,15 +2,13 @@ package Labs2.SeriesGenerator;
 
 import Labs2.SeriesIterator.Series;
 
-public class StringSeriesGenerator implements SeriesGenerator{
+public class StringSeriesGenerator implements SeriesGenerator<String>{
     @Override
-    public Series<String> generate(int n) {
-        Series<String> stringSeries = new Series<>();
-        String temp = "";
+    public String generate(int n) {
+        String temp = "a";
         for(int i = 0; i < n; i++){
             temp += "a";
-            stringSeries.add(temp);
         }
-        return stringSeries;
+        return temp;
     }
 }

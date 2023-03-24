@@ -7,17 +7,14 @@ import Labs2.SeriesIterator.Series;
 public class Main  {
     public static void main(String[] args) {
         int n = 5;
-        IntSeriesGenerator integerSeriesGenerator = new IntSeriesGenerator();
-        StringSeriesGenerator stringSeriesGenerator = new StringSeriesGenerator();
 
-        Series<Integer> intSeries = integerSeriesGenerator.generate(n);
-        Series<String> stringSeries = stringSeriesGenerator.generate(n);
+        Series<Integer> intSeries = new Series<>(n, new IntSeriesGenerator());
+        Series<String> stringSeries = new Series<>(n, new StringSeriesGenerator());
 
         for(Integer i : intSeries){
             System.out.print(i + " ");
         }
         System.out.println();
-
         for(String s : stringSeries){
             System.out.print(s + " ");
         }
