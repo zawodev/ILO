@@ -1,24 +1,46 @@
 package Labs3;
-
+import java.util.Iterator;
+import java.util.ListIterator;
 public abstract class AbstractList <E> implements IList<E> {
-    Node<E> head, tail;
-    public AbstractList() {
-
-    }
-    @Override
-    public void add(int index, E data) {
-        Node<E> node = new Node<>(data, null);
-        if (head == null)
-            tail = head = node;
-        else {
-            tail.setNext(node);
-            tail = node;
+    /*@Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append('[');
+        if (!isEmpty()) {
+            for (E item : this)
+                buffer.append(item).append(", ");
+            buffer.setLength(buffer.length() - 2);
         }
-    }
-    public Node<E> getHead() {
-        return head;
-    }
-    public Node<E> getTail() {
-        return tail;
-    }
+        buffer.append(']');
+        return buffer.toString();
+    }*/
+    /*@Override
+    public int hashCode() {
+        int hashCode = 0;
+        for (E item : this)
+            hashCode ^= item.hashCode();
+        return hashCode;
+    }*/
+    /*@Override
+    public boolean equals(Object object) {
+        if (object == null)
+            return false;
+        if (getClass() != object.getClass())
+            return false;
+        return equals((IList<E>) object);
+    }*/
+    /*public boolean equals(IList<E> other) {
+        if (other == null || size() != other.size())
+            return false;
+        else {
+            Iterator<E> i = iterator();
+            Iterator<E> j = other.iterator();
+            boolean has1 = i.hasNext(), has2 = j.hasNext();
+            for (; has1 && has2 && i.next().equals(j.next()); ) {
+                has1 = i.hasNext();
+                has2 = j.hasNext();
+            }
+            return !has1 && !has2;
+        }
+    }*/
 }
