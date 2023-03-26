@@ -5,6 +5,9 @@ public class Node<E> {
         this.data = data;
         this.next = next;
     }
+    public Node() {
+
+    }
     public void setData(E data) {
         this.data = data;
     }

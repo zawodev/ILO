@@ -1,5 +1,6 @@
+import java.util.Iterator;
 public abstract class AbstractList <E> implements IList<E> {
-    /*@Override
+    @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
         buffer.append('[');
@@ -10,22 +11,22 @@ public abstract class AbstractList <E> implements IList<E> {
         }
         buffer.append(']');
         return buffer.toString();
-    }*/
-    /*@Override
+    }
+    @Override
     public int hashCode() {
         int hashCode = 0;
         for (E item : this)
             hashCode ^= item.hashCode();
         return hashCode;
-    }*/
-    /*@Override
+    }
+    @Override
     public boolean equals(Object object) {
         if (object == null)
             return false;
         if (getClass() != object.getClass())
             return false;
         return equals((IList<E>) object);
-    }*/
+    }
     /*public boolean equals(IList<E> other) {
         if (other == null || size() != other.size())
             return false;

@@ -1,20 +1,27 @@
 public class Main {
     public static void main(String args[]){
-        OneWayLinkedListWithSentinel<Integer> integers = new OneWayLinkedListWithSentinel<>(10);
-        OneWayLinkedListWithSentinel<String> strings = new OneWayLinkedListWithSentinel<>("10");
+        OneWayLinkedListWithSentinel<Integer> integers = new OneWayLinkedListWithSentinel<>();
+        OneWayLinkedListWithSentinel<String> strings = new OneWayLinkedListWithSentinel<>();
+
+        System.out.println(integers);
+        System.out.println(strings);
+        System.out.println();
 
         integers.add(2);
-        integers.add(6);
+        strings.add("darek");
 
-        strings.add("(3)");
-        strings.add("a");
-
-        for(Integer i : integers){
-            System.out.print(i + " ");
-        }
+        System.out.println(integers);
+        System.out.println(strings);
         System.out.println();
-        for(String s : strings){
-            System.out.print(s + " ");
-        }
+
+        integers.add(6);
+        integers.add(8);
+        strings.add("g");
+        strings.add("k");
+        strings.add("s");
+
+        System.out.println(integers);
+        System.out.println(strings);
+        System.out.println();
     }
 }
