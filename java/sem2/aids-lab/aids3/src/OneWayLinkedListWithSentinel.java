@@ -1,7 +1,4 @@
-package Labs3;
-
 import java.util.Iterator;
-import java.util.ListIterator;
 
 public class OneWayLinkedListWithSentinel<E> extends AbstractList<E>{
 

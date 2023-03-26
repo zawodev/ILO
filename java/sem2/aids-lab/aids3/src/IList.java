@@ -1,5 +1,3 @@
-package Labs3;
-
 import java.util.Iterator;
 import java.util.ListIterator;
 public interface IList<E> extends Iterable<E> {

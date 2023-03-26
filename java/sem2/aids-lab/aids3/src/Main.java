@@ -1,6 +1,4 @@
-package Labs3;
-
-public class Main2 {
+public class Main {
     public static void main(String args[]){
         OneWayLinkedListWithSentinel<Integer> integers = new OneWayLinkedListWithSentinel<>(10);
         OneWayLinkedListWithSentinel<String> strings = new OneWayLinkedListWithSentinel<>("10");

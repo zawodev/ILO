@@ -1,6 +1,3 @@
-package Labs3;
-import java.util.Iterator;
-import java.util.ListIterator;
 public abstract class AbstractList <E> implements IList<E> {
     /*@Override
     public String toString() {
