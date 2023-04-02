@@ -111,11 +111,17 @@ public class OneWayCyclicLinkedList<E> extends AbstractList<E> {
         return val;
     }
     public boolean remove(Object value) {
-        Node<E> node = getNode((E)value);
-        if(sentinel.getNext().getData().equals(value)) sentinel.setNext(sentinel.getNext().getNext());
+        if(sentinel.getNext() == sentinel) return false;
+        if(sentinel.getNext().getData().equals(value)) {
+            sentinel.setNext(sentinel.getNext().getNext());
+            return true;
+        }
+        Node<E> node = sentinel.getNext();
         while(node.getNext() != sentinel && !node.getNext().getData().equals(value)){
             node = node.getNext();
         }
+        if(node.getNext() == sentinel) return false;
+        node.setNext(node.getNext().getNext());
         return true;
     }
     public int size() {
@@ -127,15 +133,6 @@ public class OneWayCyclicLinkedList<E> extends AbstractList<E> {
         }
         return counter;
     }
-    public void testNextIteration(){
-        Node<E> node = sentinel.getNext();
-        while(node != sentinel) {
-            System.out.print(node.getData() + "; ");
-            node = node.getNext();
-        }
-        System.out.println();
-    }
-
     public Iterator<E> iterator() {
         return new MyIterator();
     }

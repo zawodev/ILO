@@ -28,7 +28,8 @@ public class OneWayLinkedList<E> extends AbstractList<E> {
     Node sentinel = null;
     public OneWayLinkedList(){
         sentinel = new Node(null);
-        sentinel.setNext(sentinel);
+        sentinel.setNext(null);
+        //sentinel.setNext(sentinel);
     }
     private Node getNode(int index){
         if(index < 0 || index >= size()) throw new IndexOutOfBoundsException();
@@ -51,10 +52,10 @@ public class OneWayLinkedList<E> extends AbstractList<E> {
         return node;
     }
     public boolean isEmpty() {
-        return sentinel.getNext() == sentinel;
+        return sentinel.getNext() == null;
     }
     public void clear() {
-        sentinel.setNext(sentinel);
+        sentinel.setNext(null);
     }
     public boolean contains(Object value) {
         return indexOf((E)value) != -1;
@@ -73,10 +74,10 @@ public class OneWayLinkedList<E> extends AbstractList<E> {
     public boolean add(E value) {
         Node<E> newNode = new Node<E>(value);
         Node<E> tail = sentinel;
-        while(tail.getNext() != sentinel)
+        while(tail.getNext() != null)
             tail = tail.getNext();
         tail.setNext(newNode);
-        newNode.setNext(sentinel);
+        //newNode.setNext(sentinel);
         return true;
     }
     public void add(int index, E data) {
@@ -90,11 +91,11 @@ public class OneWayLinkedList<E> extends AbstractList<E> {
     public int indexOf(Object data) {
         Node<E> node = sentinel.getNext();
         int counter = 0;
-        while(node != sentinel && !node.getData().equals((E)data)){
+        while(node != null && !node.getData().equals((E)data)){
             counter++;
             node = node.getNext();
         }
-        if(node == sentinel)
+        if(node == null)
             return -1;
         return counter;
     }
@@ -111,29 +112,27 @@ public class OneWayLinkedList<E> extends AbstractList<E> {
         return val;
     }
     public boolean remove(Object value) {
-        Node<E> node = getNode((E)value);
-        if(sentinel.getNext().getData().equals(value)) sentinel.setNext(sentinel.getNext().getNext());
-        while(node.getNext() != sentinel && !node.getNext().getData().equals(value)){
+        if(sentinel.getNext() == null) return false;
+        if(sentinel.getNext().getData().equals(value)) {
+            sentinel.setNext(sentinel.getNext().getNext());
+            return true;
+        }
+        Node<E> node = sentinel.getNext();
+        while(node.getNext() != null && !node.getNext().getData().equals(value)){
             node = node.getNext();
         }
+        if(node.getNext() == null) return false;
+        node.setNext(node.getNext().getNext());
         return true;
     }
     public int size() {
         Node<E> node = sentinel.getNext();
         int counter = 0;
-        while(node != sentinel){
+        while(node != null){
             counter++;
             node = node.getNext();
         }
         return counter;
-    }
-    public void testNextIteration(){
-        Node<E> node = sentinel.getNext();
-        while(node != sentinel) {
-            System.out.print(node.getData() + "; ");
-            node = node.getNext();
-        }
-        System.out.println();
     }
 
     public Iterator<E> iterator() {
@@ -142,7 +141,7 @@ public class OneWayLinkedList<E> extends AbstractList<E> {
     private class MyIterator implements Iterator<E>{
         Node<E> currentNode = sentinel;
         public boolean hasNext() {
-            return currentNode.getNext() != sentinel;
+            return currentNode.getNext() != null;
         }
         public E next() {
             currentNode = currentNode.getNext();

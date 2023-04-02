@@ -44,38 +44,44 @@ public class TwoWayLinkedList<E> extends AbstractList<E> {
         }
 
     }
-    Node sentinel = null;
+    Node headSentinel = null;
+    Node tailSentinel = null;
     public TwoWayLinkedList(){
-        sentinel = new Node(null);
-        sentinel.setNext(sentinel);
-        sentinel.setPrev(sentinel);
+        headSentinel = new Node(null);
+        tailSentinel = new Node(null);
+        headSentinel.setNext(tailSentinel);
+        headSentinel.setPrev(null);
+        tailSentinel.setNext(null);
+        tailSentinel.setPrev(headSentinel);
     }
     private Node getNode(int index){
         if(index < 0 || index >= size()) throw new IndexOutOfBoundsException();
-        Node<E> node = sentinel.getNext();
+        Node<E> node = headSentinel.getNext();
         int counter = 0;
-        while(node != sentinel && counter < index){
+        while(node != tailSentinel && counter < index){
             counter++;
             node = node.getNext();
         }
-        if(node == sentinel)
+        if(node == tailSentinel)
             throw new IndexOutOfBoundsException();
         return node;
     }
     private Node<E> getNode(E value){
-        Node<E> node = sentinel.getNext();
-        while(node != sentinel && !value.equals(node.getData())){
+        Node<E> node = headSentinel.getNext();
+        while(node != tailSentinel && !value.equals(node.getData())){
             node = node.getNext();}
-        if(node == sentinel)
+        if(node == tailSentinel)
             return null;
         return node;
     }
     public boolean isEmpty() {
-        return sentinel.getNext() == sentinel;
+        return headSentinel.getNext() == tailSentinel;
     }
     public void clear() {
-        sentinel.setNext(sentinel);
-        sentinel.setPrev(sentinel);
+        headSentinel.setNext(tailSentinel);
+        headSentinel.setPrev(null);
+        tailSentinel.setNext(null);
+        tailSentinel.setPrev(headSentinel);
     }
     public boolean contains(Object value) {
         return indexOf((E)value) != -1;
@@ -93,25 +99,25 @@ public class TwoWayLinkedList<E> extends AbstractList<E> {
     }
     public boolean add(E value) {
         Node<E> newNode = new Node<E>(value);
-        sentinel.insertBefore(newNode);
+        tailSentinel.insertBefore(newNode);
         return true;
     }
     public void add(int index, E data) {
         Node<E> newNode = new Node<E>(data);
-        if(index == 0) sentinel.insertAfter(newNode);
+        if(index == 0) headSentinel.insertAfter(newNode);
         else{
             Node<E> prevNode = getNode(index - 1);
             prevNode.insertAfter(newNode);
         }
     }
     public int indexOf(Object data) {
-        Node<E> node = sentinel.getNext();
+        Node<E> node = headSentinel.getNext();
         int counter = 0;
-        while(node != sentinel && !node.getData().equals((E)data)){
+        while(node != tailSentinel && !node.getData().equals((E)data)){
             counter++;
             node = node.getNext();
         }
-        if(node == sentinel)
+        if(node == tailSentinel)
             return -1;
         return counter;
     }
@@ -139,88 +145,82 @@ public class TwoWayLinkedList<E> extends AbstractList<E> {
         return false;
     }
     public int size() {
-        Node<E> node = sentinel.getNext();
+        Node<E> node = headSentinel.getNext();
         int counter = 0;
-        while(node != sentinel){
+        while(node != tailSentinel){
             counter++;
             node = node.getNext();
         }
         return counter;
-    }
-    public void testNextIteration(){
-        Node<E> node = sentinel.getNext();
-        while(node != sentinel) {
-            System.out.print(node.getData() + "; ");
-            node = node.getNext();
-        }
-        System.out.println();
-    }
-    public void testPrevIteration(){
-        Node<E> node = sentinel.getPrev();
-        while(node != sentinel) {
-            System.out.print(node.getData() + "; ");
-            node = node.getPrev();
-        }
-        System.out.println();
     }
 
     public Iterator<E> iterator() {
         return new MyIterator();
     }
     private class MyIterator implements Iterator<E>{
-        Node<E> _current=sentinel;
+        Node<E> currentNode = headSentinel;
         public boolean hasNext() {
-            return _current.getNext()!=sentinel;}
+            return currentNode.getNext() != tailSentinel;}
         public E next() {
-            _current=_current.getNext();
-            return _current.getData();}
+            currentNode = currentNode.getNext();
+            return currentNode.getData();}
     }
     public ListIterator<E> listIterator() {
         return new MyListIterator();
     }
     private class MyListIterator implements ListIterator<E>{
-        boolean wasNext=false;
-        boolean wasPrevious=false;
-        Node<E> _current=sentinel;
+        boolean wasNext = false;
+        boolean wasPrevious = false;
+        Node<E> currentNode = headSentinel;
         public boolean hasNext() {
-            return _current.getNext()!=sentinel;}
+            return currentNode.getNext() != tailSentinel;
+        }
         public boolean hasPrevious() {
-            return _current!=sentinel;}
+            return currentNode != headSentinel;
+        }
         public int nextIndex() {
-            throw new UnsupportedOperationException();}
+            throw new UnsupportedOperationException();
+        }
         public int previousIndex() {
-            throw new UnsupportedOperationException();}
+            throw new UnsupportedOperationException();
+        }
         public E next() {
-            wasNext=true;
-            wasPrevious=false;
-            _current=_current.getNext();
-            return _current.getData();}
+            wasNext = true;
+            wasPrevious = false;
+            currentNode = currentNode.getNext();
+            return currentNode.getData();
+        }
         public E previous() {
-            wasNext=false;
-            wasPrevious=true;
-            E retValue=_current.getData();
-            _current=_current.getPrev();
+            wasNext = false;
+            wasPrevious = true;
+            E retValue = currentNode.getData();
+            currentNode = currentNode.getPrev();
             return retValue;}
         public void remove() {
             if(wasNext){
-                Node<E> curr=_current.getPrev();
-                _current.remove();
-                _current=curr;
-                wasNext=false;}
+                Node<E> currentNode = this.currentNode.getPrev();
+                this.currentNode.remove();
+                this.currentNode = currentNode;
+                wasNext = false;
+            }
             if(wasPrevious){
-                _current.getNext().remove();
-                wasPrevious=false;}}
+                currentNode.getNext().remove();
+                wasPrevious = false;
+            }
+        }
         public void add(E data) {
-            Node<E> newElem=new Node<E>(data);
-            _current.insertAfter(newElem);
-            _current=_current.getNext();}
+            Node<E> newNode = new Node<E>(data);
+            currentNode.insertAfter(newNode);
+            currentNode = currentNode.getNext();
+        }
         public void set(E data) {
             if(wasNext){
-                _current.setData(data);
-                wasNext=false;}
+                currentNode.setData(data);
+                wasNext = false;
+            }
             if(wasPrevious){
-                _current.getNext().setData(data);
-                wasNext=false;
+                currentNode.getNext().setData(data);
+                wasNext = false;
             }
         }
     }
