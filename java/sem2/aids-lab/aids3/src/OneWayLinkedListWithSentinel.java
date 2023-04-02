@@ -1,120 +1,171 @@
 import java.util.Iterator;
+import java.util.ListIterator;
 
 public class OneWayLinkedListWithSentinel<E> extends AbstractList<E> {
 
-    Node<E> head = null, tail = null;
+    //Node<E> head = null, tail = null;
+    Node<E> sentinel = null;
 
     public OneWayLinkedListWithSentinel() {
-
+        sentinel = new Node<>(null);
+        sentinel.setNext(sentinel);
+        //sentinel.setPrev(sentinel);
     }
-
-    public void add(E data) {
-        Node<E> node = new Node<>(data, null);
-        if (head == null) head = tail = node;
-        else {
-            tail.setNext(node);
-            tail = node;
-        }
-    }
-
-    @Override
+    public boolean isEmpty() {
+        return sentinel.getNext() == sentinel;}
     public void clear() {
-        head = tail = null;
+        sentinel.setNext(sentinel);
+        //sentinel.setPrev(sentinel);
     }
-
+    public boolean contains(E value) {
+        return indexOf(value) != -1;}
+    public E get(int index) {
+        if(index < 0 || index >= size()) return null;
+        Node<E> current = getNode(index);
+        return current.getData();
+    }
+    public E set(int index, E value) {
+        if(index < 0 || index >= size()) return null;
+        Node<E> current = getNode(index);
+        E currentData = current.getData();
+        current.setData(value);
+        return currentData;
+    }
+    public boolean add(E data) {
+        Node<E> newNode = new Node<E>(data);
+        Node<E> lastNode = sentinel;
+        while(lastNode.getNext() != null){
+            lastNode = lastNode.getNext();
+        }
+        lastNode.setNext(newNode);
+        return true;
+    }
+    public boolean add(int index, E data) {
+        Node<E> newNode = new Node<E>(data);
+        if(index == 0) sentinel.insertAfter(newNode);
+        else{
+            Node<E> elem = this.getNode(index-1);
+            elem.insertAfter(newNode);
+        }
+        return true;
+    }
     private Node<E> getNode(int index){
-        if (index < 0) throw new IndexOutOfBoundsException();
-        Node<E> current = head;
-        while (index > 0 && current != null) {
-            index--;
+        if (index < 0 || index >= size()) return null; //throw new outofbounderrorr
+        Node<E> current = sentinel.getNext();
+        int counter = 0;
+        while (current != sentinel && counter < index) {
+            counter++;
             current = current.getNext();
         }
-        if (current == null)
-            throw new IndexOutOfBoundsException();
+        if (current == sentinel)
+            return null;//throw new IndexOutOfBoundsException();
         return current;
     }
-
-    @Override
+    private Node<E> getNode(E value){
+        Node<E> current = sentinel.getNext();
+        while(current != null && !value.equals(current.getData())){
+            current = current.getNext();}
+        return current;
+    }
     public int indexOf(E data) {
-        int pos=0;
-        Node<E> actElem= head;
-        while(actElem!=null)
-        {
-            if(actElem.getData().equals(data))
-                return pos;
-            pos++;
-            actElem=actElem.getNext();
+        Node<E> current = sentinel.getNext();
+        int counter = 0;
+        while(current != sentinel && !current.getData().equals(data)){
+            counter++;
+            current=current.getNext();
         }
-        return -1;}
-    @Override
-    public boolean contains(E data) {
-        return indexOf(data)>=0;
+        if(current == sentinel)
+            return -1;
+        return counter;
     }
-    @Override
-    public E get(int index) {
-        Node<E> actElem = getNode(index);
-        return actElem.getData();
+    public E remove(int index) {
+        if(index == 0){
+            sentinel.setNext(getNode(1));
+            return getNode(0).getData();
+        }
+        Node<E> current = getNode(index-1);
+        if(current.getNext() == null){
+            throw new IndexOutOfBoundsException();
+        }
+        current.setNext(current.getNext().getNext());
+        return current.getNext().getData();
     }
-    @Override
-    public E set(int index, E data) {
-        Node<E> actElem=getNode(index);
-        E elemData=actElem.getData();
-        actElem.setData(data);
-        return elemData;
+    public boolean remove(E data) {
+        int index = indexOf(data);
+        if(index < 0 || index >= size()) return false;
+        remove(indexOf(data));
+        return true;
+    }
+    public int size() {
+        Node<E> current = sentinel.getNext();
+        int counter = 0;
+        while(current != sentinel){
+            counter++;
+            current = current.getNext();}
+        return counter;
     }
 
-    @Override
-    public boolean isEmpty() {
-        return head == null;
-    }
-
+    public Node<E> getSentinel(){return sentinel;}
     @Override
     public Iterator<E> iterator() {
-        return new MyIterator<>(this);
+        return null;
     }
-
-    @Override
-    public E remove(int index) {
-        if(index<0 || head ==null) throw new IndexOutOfBoundsException();
-        if(index==0){
-            E retValue= head.getData();
-            head = head.getNext();
+    /*private class TWCIterator implements Iterator<E>{
+        Node<E> _current=sentinel;
+        public boolean hasNext() {
+            return _current.getNext()!=sentinel;}
+        public E next() {
+            _current=_current.getNext();
+            return _current.getData();}
+    }
+    public ListIterator<E> listIterator() {
+        return new TWCListIterator();}
+    private class TWCListIterator implements ListIterator<E>{
+        boolean wasNext=false;
+        boolean wasPrevious=false;
+        Node<E> _current=sentinel;
+        public boolean hasNext() {
+            return _current.getNext()!=sentinel;}
+        public boolean hasPrevious() {
+            return _current!=sentinel;}
+        public int nextIndex() {
+            throw new UnsupportedOperationException();}
+        public int previousIndex() {
+            throw new UnsupportedOperationException();}
+        public E next() {
+            wasNext=true;
+            wasPrevious=false;
+            _current=_current.getNext();
+            return _current.getData();}
+        public E previous() {
+            wasNext=false;
+            wasPrevious=true;
+            E retValue=_current.getData();
+            _current=_current.getPrev();
             return retValue;}
-        Node<E> actElem=getNode(index-1);
-        if(actElem.getNext()==null)
-            throw new IndexOutOfBoundsException();
-        E retValue=actElem.getNext().getData();
-        actElem.setNext(actElem.getNext().getNext());
-        return retValue;
+        public void remove() {
+            if(wasNext){
+                Node<E> curr=_current.getPrev();
+                _current.remove();
+                _current=curr;
+                wasNext=false;}
+            if(wasPrevious){
+                _current.getNext().remove();
+                wasPrevious=false;}}
+        public void add(E data) {
+            Node<E> newElem=new Node<E>(data);
+            _current.insertAfter(newElem);
+            _current=_current.getNext();}
+        public void set(E data) {
+            if(wasNext){
+                _current.setData(data);
+                wasNext=false;}
+            if(wasPrevious){
+                _current.getNext().setData(data);
+                wasNext=false;
+            }
+        }
     }
 
-    @Override
-    public boolean remove(E value) {
-        if(head ==null)
-            return false;
-        if(head.getNext().getData().equals(value)){
-            head = head.getNext();
-            return true;
-        }
-        Node<E> actElem = head;
-        while(actElem.getNext()!=null && !actElem.getNext().getData().equals(value))
-            actElem=actElem.getNext();
-        if(actElem.getNext()==null)
-            return false;
-        actElem.setNext(actElem.getNext().getNext());
-        return true;}
-
-    @Override
-    public int size() {
-        int pos = 0;
-        Node<E> current = head;
-        while(current != null) {
-            pos++;
-            current = current.getNext();
-        }
-        return pos;
-    }
-    public Node<E> getHead() {
-        return head;
-    }
+    */
 }
