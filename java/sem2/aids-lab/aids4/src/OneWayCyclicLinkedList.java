@@ -1,8 +1,8 @@
 import java.util.AbstractList;
 import java.util.Iterator;
 
-public class OneWayCyclicLinkedList<E> extends AbstractList<E> {
-    private class Node<E> {
+public class OneWayCyclicLinkedList<E extends Comparable<E>> extends AbstractList<E> {
+    private class Node<E extends Comparable<E>> implements Comparable<Node<E>> {
         E data;
         Node<E> next;
         public Node(E data) {
@@ -23,6 +23,11 @@ public class OneWayCyclicLinkedList<E> extends AbstractList<E> {
         public void insertAfter(Node<E> elem){
             elem.setNext(this.getNext());
             this.setNext(elem);
+        }
+
+        @Override
+        public int compareTo(Node<E> other) {
+            return data.compareTo(other.data);
         }
     }
     Node sentinel = null;
@@ -132,6 +137,23 @@ public class OneWayCyclicLinkedList<E> extends AbstractList<E> {
             node = node.getNext();
         }
         return counter;
+    }
+    public void sort(){
+        Node<E> currentNode = sentinel.getNext();
+        E data = currentNode.getData();
+        while (currentNode != sentinel) {
+            Node<E> node = currentNode.getNext();
+            while (node != sentinel) {
+                //System.out.println();
+                if(node.getData().compareTo(currentNode.getData()) < 0){
+                    data = currentNode.getData();
+                    currentNode.setData(node.getData());
+                    node.setData(data);
+                }
+                node = node.getNext();
+            }
+            currentNode = currentNode.getNext();
+        }
     }
     public Iterator<E> iterator() {
         return new MyIterator();

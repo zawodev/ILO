@@ -2,8 +2,8 @@ import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-public class TwoWayCyclicLinkedList<E> extends AbstractList<E> {
-    private class Node<E> {
+public class TwoWayCyclicLinkedList<E extends Comparable<E>> extends AbstractList<E> {
+    private class Node<E extends Comparable<E>> implements Comparable<Node<E>> {
         E data;
         Node<E> next;
         Node<E> prev;
@@ -43,6 +43,10 @@ public class TwoWayCyclicLinkedList<E> extends AbstractList<E> {
             this.getPrev().setNext(this.getNext());
         }
 
+        @Override
+        public int compareTo(Node<E> other) {
+            return data.compareTo(other.data);
+        }
     }
     Node sentinel = null;
     public TwoWayCyclicLinkedList(){
@@ -163,17 +167,34 @@ public class TwoWayCyclicLinkedList<E> extends AbstractList<E> {
         }
         System.out.println();
     }
+    public void sort(){
+        Node<E> currentNode = sentinel.getNext();
+        E data = currentNode.getData();
+        while (currentNode != sentinel) {
+            Node<E> node = currentNode.getNext();
+            while (node != sentinel) {
+                //System.out.println();
+                if(node.getData().compareTo(currentNode.getData()) < 0){
+                    data = currentNode.getData();
+                    currentNode.setData(node.getData());
+                    node.setData(data);
+                }
+                node = node.getNext();
+            }
+            currentNode = currentNode.getNext();
+        }
+    }
 
     public Iterator<E> iterator() {
         return new MyIterator();
     }
     private class MyIterator implements Iterator<E>{
-        Node<E> _current=sentinel;
+        Node<E> currentNode = sentinel;
         public boolean hasNext() {
-            return _current.getNext()!=sentinel;}
+            return currentNode.getNext() != sentinel;}
         public E next() {
-            _current=_current.getNext();
-            return _current.getData();}
+            currentNode = currentNode.getNext();
+            return currentNode.getData();}
     }
     public ListIterator<E> listIterator() {
         return new MyListIterator();

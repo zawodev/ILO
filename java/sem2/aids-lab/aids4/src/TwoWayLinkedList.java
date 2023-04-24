@@ -2,8 +2,8 @@ import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-public class TwoWayLinkedList<E> extends AbstractList<E> {
-    private class Node<E> {
+public class TwoWayLinkedList<E extends Comparable<E>> extends AbstractList<E> {
+    private class Node<E extends Comparable<E>> implements Comparable<Node<E>> {
         E data;
         Node<E> next;
         Node<E> prev;
@@ -43,6 +43,10 @@ public class TwoWayLinkedList<E> extends AbstractList<E> {
             this.getPrev().setNext(this.getNext());
         }
 
+        @Override
+        public int compareTo(Node<E> other) {
+            return data.compareTo(other.data);
+        }
     }
     Node headSentinel = null;
     Node tailSentinel = null;
@@ -54,7 +58,7 @@ public class TwoWayLinkedList<E> extends AbstractList<E> {
         tailSentinel.setNext(null);
         tailSentinel.setPrev(headSentinel);
     }
-    private Node getNode(int index){
+    private Node<E> getNode(int index){
         if(index < 0 || index >= size()) throw new IndexOutOfBoundsException();
         Node<E> node = headSentinel.getNext();
         int counter = 0;
@@ -153,6 +157,22 @@ public class TwoWayLinkedList<E> extends AbstractList<E> {
         }
         return counter;
     }
+    public void sort(){
+        Node<E> currentNode = headSentinel.getNext();
+        E data = currentNode.getData();
+        while (currentNode != tailSentinel) {
+            Node<E> node = currentNode.getNext();
+            while (node != tailSentinel) {
+                if(node.getData().compareTo(currentNode.getData()) < 0){
+                    data = currentNode.getData();
+                    currentNode.setData(node.getData());
+                    node.setData(data);
+                }
+                node = node.getNext();
+            }
+            currentNode = currentNode.getNext();
+        }
+    }
 
     public Iterator<E> iterator() {
         return new MyIterator();
@@ -160,10 +180,12 @@ public class TwoWayLinkedList<E> extends AbstractList<E> {
     private class MyIterator implements Iterator<E>{
         Node<E> currentNode = headSentinel;
         public boolean hasNext() {
-            return currentNode.getNext() != tailSentinel;}
+            return currentNode.getNext() != tailSentinel;
+        }
         public E next() {
             currentNode = currentNode.getNext();
-            return currentNode.getData();}
+            return currentNode.getData();
+        }
     }
     public ListIterator<E> listIterator() {
         return new MyListIterator();
