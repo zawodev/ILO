@@ -28,5 +28,6 @@ public class MarkedValue<T> {
 	public int marker() {
 		return mark;
 	}
+	public String toString(){ return val.toString();}
 
 }

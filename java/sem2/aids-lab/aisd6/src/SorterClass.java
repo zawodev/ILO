@@ -15,7 +15,7 @@ public class SorterClass {
 
     public static int binarySearch(int[] arr, int left, int right, int key) {
         while (left <= right) {
-            int mid = left + (right - left) / 2;
+            int mid = (right + left) / 2;
             if (arr[mid] == key) {
                 return mid + 1;
             } else if (arr[mid] > key) {
@@ -39,10 +39,16 @@ public class SorterClass {
                 }
             }
             swap(arr, i, minIndex);
-            if (arr[minIndex] == arr[maxIndex]) {
-                break;
+            System.out.print(i + " "+ minIndex+"\n");
+            if ((i == maxIndex) && (j == minIndex)) {
+                System.out.println(Arrays.toString(arr));
+                continue;
             }
-            swap(arr, j, maxIndex);
+            System.out.print(j + "h "+ maxIndex+"\n\n");
+            if (j == minIndex) swap(arr, i, maxIndex);
+            else if (maxIndex == i) swap(arr, j, minIndex);
+            else swap(arr, j, maxIndex);
+            System.out.println(Arrays.toString(arr));
         }
     }
 
@@ -71,15 +77,16 @@ public class SorterClass {
     }
     public static void main(String[] args) {
         Comparator<Integer> comparator = new MyComparator<>();
-        int[] arr = {5, 1, 3, 2, 4};
+        int[] arr = {3, 6, 7, 2, 9, 2, 9, 3, 8, 2};
+        System.out.println(Arrays.toString(arr));
         binaryInsertionSort(arr);
         System.out.println(Arrays.toString(arr)); // [1, 2, 3, 4, 5]
 
-        arr = new int[]{5, 1, 3, 2, 4};
+        arr = new int[]{3, 6, 7, 2, 9, 2, 9, 3, 8, 2};
         selectionSortWithMinMax(arr);
         System.out.println(Arrays.toString(arr)); // [1, 2, 3, 4, 5]
 
-        arr = new int[]{5, 1, 3, 2, 4};
+        arr = new int[]{3, 6, 7, 2, 9, 2, 9, 3, 8, 2};
         shakerSort(arr);
         System.out.println(Arrays.toString(arr)); // [1, 2, 3, 4, 5]
     }
