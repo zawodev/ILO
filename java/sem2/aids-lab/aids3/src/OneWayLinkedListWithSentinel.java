@@ -6,6 +6,7 @@ public class OneWayLinkedListWithSentinel<E> extends AbstractList<E> {
     //Node<E> head = null, tail = null;
     Node<E> sentinel = null;
 
+<<<<<<< Updated upstream
     public OneWayLinkedListWithSentinel() {
         sentinel = new Node<>(null);
         sentinel.setNext(sentinel);
@@ -13,6 +14,24 @@ public class OneWayLinkedListWithSentinel<E> extends AbstractList<E> {
     }
     public boolean isEmpty() {
         return sentinel.getNext() == sentinel;}
+=======
+    public void add(E data) {
+        Node<E> node = new Node<>(data, null);
+        if (head == null) head = tail = node;
+        else {
+            tail.setNext(node);
+            tail = node;
+        }
+    }
+
+    public OneWayLinkedListWithSentinel() {
+
+    }
+
+
+
+    @Override
+>>>>>>> Stashed changes
     public void clear() {
         sentinel.setNext(sentinel);
         //sentinel.setPrev(sentinel);
