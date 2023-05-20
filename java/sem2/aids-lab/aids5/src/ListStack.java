@@ -2,9 +2,9 @@ import java.util.EmptyStackException;
 
 public class ListStack<T extends Comparable<T>> implements IStack<T>{
 
-    OneWayLinkedList<T> list;
+    OneWayLinkedListWithSentinel<T> list;
     public ListStack(){
-        list = new OneWayLinkedList<T>();
+        list = new OneWayLinkedListWithSentinel<T>();
     }
 
     @Override

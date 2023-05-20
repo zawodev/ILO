@@ -2,7 +2,7 @@ import java.util.AbstractList;
 import java.util.Iterator;
 import java.util.ListIterator;
 
-public class MyLinkedList<E extends Comparable<E>> extends AbstractList<E> {
+public class TwoWayCyclicList<E extends Comparable<E>> extends AbstractList<E> {
     private class Node<E extends Comparable<E>> implements Comparable<Node<E>> {
         E data;
         Node<E> next;
@@ -49,7 +49,7 @@ public class MyLinkedList<E extends Comparable<E>> extends AbstractList<E> {
         }
     }
     Node sentinel = null;
-    public MyLinkedList(){
+    public TwoWayCyclicList(){
         sentinel = new Node(null);
         sentinel.setNext(sentinel);
         sentinel.setPrev(sentinel);
