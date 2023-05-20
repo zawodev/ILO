@@ -1,7 +1,7 @@
 import java.util.AbstractList;
 import java.util.Iterator;
 
-public class OneWayLinkedList<E extends Comparable<E>> extends AbstractList<E> {
+public class OneWayLinkedListWithSentinel<E extends Comparable<E>> extends AbstractList<E> {
     private class Node<E extends Comparable<E>> implements Comparable<Node<E>> {
         E data;
         Node<E> next;
@@ -31,7 +31,7 @@ public class OneWayLinkedList<E extends Comparable<E>> extends AbstractList<E> {
         }
     }
     Node sentinel = null;
-    public OneWayLinkedList(){
+    public OneWayLinkedListWithSentinel(){
         sentinel = new Node(null);
         sentinel.setNext(null);
         //sentinel.setNext(sentinel);

@@ -81,8 +81,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        String algebraicExpression = "5*((3-7)*2-3*(5+1))-3";
-        //String algebraicExpression = "1+2^4+3";
+        //String algebraicExpression = "5*((3-7)*2-3*(5+1))-3";
+        String algebraicExpression = "1+2^4+3";
         //String algebraicExpression = "3+2-4-1+5";
         //String algebraicExpression = "3+4*2/(1-5)^2";
         int algebraicResult = AlgebraicONP(ONP.convert(algebraicExpression));
