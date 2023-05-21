@@ -3,6 +3,7 @@ public class Node<T> {
     private Node left;
     private Node right;
     private Node parent;
+    private boolean color;
 
     public Node (T data){
         this.data = data;
@@ -25,6 +26,12 @@ public class Node<T> {
     public void setData(T data) {
         this.data = data;
     }
+    public void setRed() {
+        this.color = true;
+    }
+    public void setBlack() {
+        this.color = false;
+    }
 
     public Node getLeft(){
         return left;
@@ -37,5 +44,11 @@ public class Node<T> {
     }
     public T getData() {
         return data;
+    }
+    public boolean isRed() {
+        return color;
+    }
+    public boolean isBlack() {
+        return !color;
     }
 }

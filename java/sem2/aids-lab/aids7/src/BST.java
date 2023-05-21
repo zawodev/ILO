@@ -2,12 +2,9 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
-public class BST<T> {
-    private Node<T> root;
-    private final Comparator<T> comparator;
-    public BST(Comparator<T> comparator){
-        this.comparator = comparator;
-        root = null;
+public class BST<T> extends Tree<T> {
+    public BST(Comparator<T> comparator) {
+        super(comparator);
     }
     public T find(T elem){
         Node<T> node = search(elem);
@@ -63,16 +60,7 @@ public class BST<T> {
             return successorNode(node.getRight(), elem);
         }
     }
-    public <R> void inOrderWalk(IExecutor<T, R> executor){
-        inOrderWalk(root, executor);
-    }
-    private <R> void inOrderWalk(Node<T> node, IExecutor<T, R> executor){
-        if (node != null){
-            inOrderWalk(node.getLeft(), executor);
-            executor.execute(node.getData());
-            inOrderWalk(node.getRight(), executor);
-        }
-    }
+
     public void insert(T elem){
         root = insert(root, elem);
     }
@@ -115,28 +103,14 @@ public class BST<T> {
         }
         return node;
     }
-
-    public void printSpace(double n, Node removed) {
-        for (; n > 0; n--) {
-            System.out.print("\t");
-        }
-        if (removed == null) {
-            System.out.print(" ");
-        }
-        else {
-            System.out.print(removed.getData());
-        }
-    }
+    /*
 
     public int heightOfTree(Node<T> root) {
         if (root == null) return 0;
         return 1 + Math.max(heightOfTree(root.getLeft()), heightOfTree(root.getRight()));
     }
-
-    public void printTree(){
-        printTree(root);
-    }
-    private void printTree(Node<T> root){
+    private String getTreeToString(Node<T> root){
+        StringBuffer line = new StringBuffer();
         LinkedList<Node> treeLevel = new LinkedList<Node>();
         treeLevel.add(root);
         LinkedList<Node> temp = new LinkedList<Node>();
@@ -146,9 +120,9 @@ public class BST<T> {
         while (counter <= height) {
             Node removed = treeLevel.removeFirst();
             if (temp.isEmpty())
-                printSpace(numberOfElements / Math.pow(2, counter + 1), removed);
+                printSpace(line, numberOfElements / Math.pow(2, counter + 1), removed);
             else
-                printSpace(numberOfElements / Math.pow(2, counter), removed);
+                printSpace(line, numberOfElements / Math.pow(2, counter), removed);
 
             if (removed == null) {
                 temp.add(null);
@@ -160,12 +134,30 @@ public class BST<T> {
             }
 
             if (treeLevel.isEmpty()) {
-                System.out.println("");
-                System.out.println("");
+                line.append("\n");
+                //System.out.println("");
+                //System.out.println("");
                 treeLevel = temp;
                 temp = new LinkedList<>();
                 counter++;
             }
         }
+        return line.toString();
     }
+    private void printSpace(StringBuffer line, double n, Node removed) {
+        for (; n > 0; n--) {
+            line.append("\t");
+            //System.out.print("\t");
+        }
+        if (removed == null) {
+            line.append("X");
+            //System.out.print(" ");
+        }
+        else {
+            line.append(removed.getData());
+            //System.out.print(removed.getData());
+        }
+    }
+
+    */
 }

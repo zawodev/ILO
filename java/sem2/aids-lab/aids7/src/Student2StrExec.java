@@ -6,7 +6,11 @@ public class Student2StrExec implements IExecutor<Student, String>{
     }
     @Override
     public String getResult(){
-        line.delete(line.length() - 2, line.length());
+        if(line.length() >= 2) line.delete(line.length() - 2, line.length());
         return line.toString();
+    }
+    @Override
+    public void reset() {
+        line.delete(0, line.length());
     }
 }
