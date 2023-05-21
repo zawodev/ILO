@@ -279,7 +279,7 @@ public class RBT <T> extends Tree<T>{
         // Case 1: Examined node is root, end of recursion
         if (node == root) {
             // Uncomment the following line if you want to enforce black roots (rule 2):
-            // node.color = BLACK;
+            node.setBlack();
             return;
         }
 
