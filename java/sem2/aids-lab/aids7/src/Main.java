@@ -34,7 +34,7 @@ public class Main {
                     printTree();
                 }
                 catch (Exception exception){
-
+                    exception.printStackTrace();
                 }
             }
         }
@@ -48,7 +48,7 @@ public class Main {
                     printTree();
                 }
                 catch (Exception exception){
-
+                    exception.printStackTrace();
                 }
             }
         }
@@ -65,7 +65,7 @@ public class Main {
                         JOptionPane.showMessageDialog(null, "Nie ma takiego studenta w drzewie");
                 }
                 catch (Exception exception){
-
+                    exception.printStackTrace();
                 }
             }
         }

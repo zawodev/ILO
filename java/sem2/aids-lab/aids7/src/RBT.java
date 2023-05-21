@@ -1,9 +1,9 @@
 import java.util.Comparator;
 
 public class RBT <T> extends Tree<T>{
-    private static class NilNode extends Node {
+    private static class NilNode<T> extends Node {
         private NilNode() {
-            super(0);
+            super(null);
             this.setBlack();
         }
     }
@@ -192,13 +192,11 @@ public class RBT <T> extends Tree<T>{
     }
     public void remove(T key) {
         Node<T> node = root;
-
         // Find the node to be deleted
-        int cmp = comparator.compare(node.getData(), key);
-        while (node != null && cmp != 0) {
+        while (node != null && comparator.compare(node.getData(), key) != 0) {
             // Traverse the tree to the left or right depending on the key
-            cmp = comparator.compare(node.getData(), key);
-            if (cmp < 0) {
+            int cmp = comparator.compare(node.getData(), key);
+            if (cmp > 0) {
                 node = node.getLeft();
             } else {
                 node = node.getRight();
@@ -209,6 +207,8 @@ public class RBT <T> extends Tree<T>{
         if (node == null) {
             return;
         }
+
+
 
         // At this point, "node" is the node to be deleted
 
@@ -292,7 +292,7 @@ public class RBT <T> extends Tree<T>{
         }
 
         // Cases 3+4: Black sibling with two black children
-        if (sibling.getLeft().isBlack() && sibling.getRight().isBlack()) {
+        if ((sibling.getLeft() == null || sibling.getLeft().isBlack()) && (sibling.getRight() == null || sibling.getRight().isBlack())) {
             sibling.setRed();
 
             // Case 3: Black sibling with two black children + red parent
@@ -338,12 +338,12 @@ public class RBT <T> extends Tree<T>{
 
         // Case 5: Black sibling with at least one red child + "outer nephew" is black
         // --> Recolor sibling and its child, and rotate around sibling
-        if (nodeIsLeftChild && sibling.getRight().isBlack()) {
+        if (nodeIsLeftChild && (sibling.getRight() == null || sibling.getRight().isBlack())) {
             sibling.getLeft().isBlack();
             sibling.setRed();
             rotateRight(sibling);
             sibling = node.getParent().getRight();
-        } else if (!nodeIsLeftChild && sibling.getLeft().isBlack()) {
+        } else if (!nodeIsLeftChild && (sibling.getLeft() == null || sibling.getLeft().isBlack())) {
             sibling.getRight().setBlack();
             sibling.setRed();
             rotateLeft(sibling);
