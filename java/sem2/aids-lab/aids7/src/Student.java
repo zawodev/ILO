@@ -24,6 +24,6 @@ public class Student {
     }
 
     public String toString() {
-        return name;
+        return id + " {" + name + "}";
     }
 }

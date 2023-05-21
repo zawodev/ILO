@@ -1,7 +1,12 @@
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static javax.swing.JComponent.getDefaultLocale;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Main {
@@ -84,11 +89,12 @@ public class Main {
             textAreaOutput.setText(tree.getTreeToString());
         }
         public void run(){
+            textAreaOutput = new JTextArea();
+            textAreaOutput.setRows(19);
+            textAreaOutput.setEditable(false);
 
-            textAreaOutput = new JTextArea(10, 1);
-
-            labelName = new JLabel("Name");
-            labelID = new JLabel("ID");
+            labelName = new JLabel("Name", SwingConstants.CENTER);
+            labelID = new JLabel("ID", SwingConstants.CENTER);
 
             textFieldName = new JTextField();
             textFieldID = new JTextField();
@@ -109,7 +115,7 @@ public class Main {
             newRBTButton.addActionListener(new CreateRBTree());
 
             panel1 = new JPanel();
-            panel1.setLayout(new GridLayout(2,2));
+            panel1.setLayout(new GridLayout(1,4));
             panel1.add(labelName);
             panel1.add(textFieldName);
             panel1.add(labelID);
@@ -127,6 +133,7 @@ public class Main {
             frame.setVisible(true);
             frame.setSize(1500,400);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setResizable(false);
 
             frame.add(textAreaOutput, BorderLayout.NORTH);
             frame.add(panel1, BorderLayout.CENTER);
