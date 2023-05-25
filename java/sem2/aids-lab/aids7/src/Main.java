@@ -138,6 +138,8 @@ public class Main {
             frame.add(textAreaOutput, BorderLayout.NORTH);
             frame.add(panel1, BorderLayout.CENTER);
             frame.add(panel2, BorderLayout.SOUTH);
+
+            printTree();
         }
     }
     static Tree<Student> tree;
@@ -146,7 +148,7 @@ public class Main {
         tree = new RBT<>(new StudentComparator());
         GUI gui = new GUI();
 
-        /*
+
         Student2StrExec exec = new Student2StrExec();
 
         tree.insert(new Student(2, "a"));
@@ -161,7 +163,7 @@ public class Main {
         tree.inOrderWalk(exec);
         System.out.println(exec.getResult());
         exec.reset();
-        */
+
 
         gui.run();
 

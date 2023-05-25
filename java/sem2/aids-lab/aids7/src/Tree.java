@@ -78,7 +78,7 @@ public abstract class Tree<T> {
             //System.out.print("\t");
         }
         if (removed == null) {
-            line.append("X");
+            line.append(" ");
             //System.out.print(" ");
         }
         else {
