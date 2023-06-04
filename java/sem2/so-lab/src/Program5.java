@@ -14,6 +14,7 @@ public class Program5 {
             currentPowerLevel = 0;
             timePassed = 0;
             powerLevelSum = 0;
+            overFlowCount =0;
         }
         int id;
         int currentPowerLevel;
@@ -21,12 +22,13 @@ public class Program5 {
         public ArrayList<Process> processes;
         public int migrationCount;
         public int powerLevelInquiryCount;
+        public int overFlowCount;
         public int powerLevelSum;
         public int timePassed;
 
 
         public float getPowerLevel() {
-            return (float)currentPowerLevel / (float)maxPower;
+            return Math.min((float)currentPowerLevel / (float)maxPower, 1);
         }
         public float getAveragePowerLevel(){
             return (float) powerLevelSum / (float)timePassed;
@@ -58,6 +60,7 @@ public class Program5 {
         }
         public boolean addProcess(Process process){
             currentPowerLevel += process.powerConsumption;
+            if(currentPowerLevel > maxPower) overFlowCount++;
             return processes.add(process);
         }
         public Process removeRandomProcess(){
@@ -222,11 +225,13 @@ public class Program5 {
         float a1 = 0;
         float a2 = 0;
         double a3 = 0;
+        int a4 = 0;
         for(Processor processor : processors){
             //System.out.println(processor.toString());
             avPowerLevel += processor.getAveragePowerLevel();
             a1 += processor.migrationCount;
             a2 += processor.powerLevelInquiryCount;
+            a4 += processor.overFlowCount;
         }
         avPowerLevel /= processors.size();
 
@@ -236,20 +241,20 @@ public class Program5 {
         a3 /= (processors.size() - 1);
         a3 = Math.sqrt(a3);
 
-        System.out.println("AveragePowerLevel: " + avPowerLevel + ", Odchylenie Standardowe: " + a3 + ", MigrationCount: " + a1 + ", PowerLevelInquiryCount: " + a2);
+        System.out.println("Srednie obciazenie: " + avPowerLevel + ", Odchylenie Standardowe: " + a3 + ", Migracje: " + a1 + ", Zapytania: " + a2 + ", Odrzucone procesy: " + a4);
     }
     //public final static int maxTime = 1000;
     public static void main(String[] args) {
         float p = .6f; //maksymalny prog po ktorym za duze obciazenie [0,1], gdzie 1 to max
         float r = .2f; //minimalny próg... od 0 do 1
-        int z = 1; //ilosc wyszukan losowego procka w strat1
+        int z = 10; //ilosc wyszukan losowego procka w strat1
         int N = 100; //ilosc procesorow
         int maxPower = 100; //maksymalna pojemnosc kazdego procesora
 
-        int minPowerConsumption = 70; //minimalny pobor mocy procesu
+        int minPowerConsumption = 90; //minimalny pobor mocy procesu
         int maxPowerConsumption = 100; //maksymalny pobor mocy procesu
-        int minTime = 300; //minimalny czas trwania wykonania procesu
-        int maxTime = 400; //maksymalny czas trwania wykonania procesu
+        int minTime = 100; //minimalny czas trwania wykonania procesu
+        int maxTime = 240; //maksymalny czas trwania wykonania procesu
         int minTimeToNext = 1; //minimalny czas pomiedzy procesami
         int maxTimeToNext = 5; //maksymalny czas pomiedzy procesami
         float takePercent = .3f; //procent zadan ktore przejmuje proces w strat3
