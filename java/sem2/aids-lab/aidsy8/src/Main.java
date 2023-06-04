@@ -182,7 +182,7 @@ public class Main {
             panel2.add(newRandomGraphButton);
 
 
-            frame = new JFrame("Drzewa BST oraz RBT");
+            frame = new JFrame("Dijkstra");
             frame.setVisible(true);
             frame.setSize(1500,400);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

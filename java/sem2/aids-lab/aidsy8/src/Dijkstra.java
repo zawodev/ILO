@@ -38,7 +38,7 @@ public class Dijkstra {
         dist[src] = 0;
         graph.nodes.get(src).dist = 0;
 
-        for (int count = 0; count < nodesCount - 1; count++) {
+        for (int i = 0; i < nodesCount - 1; i++) {
             int u = minDistance(dist, sptSet, nodesCount);
 
             sptSet[u] = true;
