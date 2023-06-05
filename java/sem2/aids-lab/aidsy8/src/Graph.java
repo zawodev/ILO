@@ -27,7 +27,7 @@ public class Graph {
         }
         for(int i = 0; i < nodeCount; i++){
             for(int j = 0; j < nodeCount; j++){
-                connect(i, j, random.nextInt(0, maxWeight));
+                connect(i, j, random.nextInt(0, 2) * random.nextInt(0, maxWeight));
             }
         }
     }
@@ -44,9 +44,14 @@ public class Graph {
             for (int i = 0; i < nodes.size() - 1; i++) {
                 stringBuilder.append(nodes.get(i) + ", ");
             }
-            stringBuilder.append(nodes.get(nodes.size() - 1) + "]\n");
+            stringBuilder.append(nodes.get(nodes.size() - 1) + "]\n\t");
 
             for (int i = 0; i < nodes.size(); i++) {
+                stringBuilder.append(nodes.get(i) + "\t");
+            }
+            stringBuilder.append("\n");
+            for (int i = 0; i < nodes.size(); i++) {
+                stringBuilder.append(nodes.get(i) + "\t");
                 for (int j = 0; j < nodes.size(); j++) {
                     stringBuilder.append(nodes.get(i).getEdgeWeight(nodes.get(j)) + "\t");
                 }

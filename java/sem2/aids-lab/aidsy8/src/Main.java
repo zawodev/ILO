@@ -26,6 +26,7 @@ public class Main {
         private JFrame frame;
         private JPanel panel1;
         private JPanel panel2;
+        private JPanel panel3;
         class AddNode implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -95,10 +96,10 @@ public class Main {
                 startNodeID = 0;
                 endNodeID = 3;
 
-                graph.addNode("0");
-                graph.addNode("1");
-                graph.addNode("2");
-                graph.addNode("3");
+                graph.addNode("N0");
+                graph.addNode("N1");
+                graph.addNode("N2");
+                graph.addNode("N3");
                 graph.connect(0, 3, 9);
                 graph.connect(0, 1, 1);
                 graph.connect(1, 2, 2);
@@ -122,7 +123,8 @@ public class Main {
             textFieldID2.setText("");
             textFieldWeight.setText("");
             textFieldName.setText("");
-            textAreaOutput.setText("StartNode: " + startNodeID + ", EndNode: " + endNodeID + "\nDijkstra shortest path length: " + dijkstra.getShortestPath(graph, startNodeID, endNodeID) + "\n" + graph.toString());
+            dijkstra.run(graph, startNodeID, endNodeID);
+            textAreaOutput.setText("StartNode: " + startNodeID + ", EndNode: " + endNodeID + "\nDijkstra shortest path length: " + dijkstra.getShortestPathLength() + "\nDijkstra Shortest Path: " + dijkstra.shortestPath + "\nGraph: " + graph.toString());
         }
         public void run(){
             textAreaOutput = new JTextArea();
@@ -171,6 +173,15 @@ public class Main {
             panel1.add(labelWeight);
             panel1.add(textFieldWeight);
 
+            panel3 = new DrawCircleFrame(graph.nodes.size());
+            for(Node node : graph.nodes){
+                for(Edge edge : node.outEdges){
+                    panel3.draw
+                }
+            }
+            //panel3.setLayout(new GridLayout(1,1));
+            //panel3.add(textAreaOutput);
+
             panel2 = new JPanel();
             panel2.setLayout(new GridLayout(1,7));
             panel2.add(addNodeButton);
@@ -184,13 +195,14 @@ public class Main {
 
             frame = new JFrame("Dijkstra");
             frame.setVisible(true);
-            frame.setSize(1500,400);
+            frame.setSize(1500,800);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setResizable(false);
+            frame.setResizable(true);
 
-            frame.add(textAreaOutput, BorderLayout.NORTH);
-            frame.add(panel1, BorderLayout.CENTER);
+            //frame.add(textAreaOutput, BorderLayout.NORTH);
+            frame.add(panel1, BorderLayout.NORTH);
             frame.add(panel2, BorderLayout.SOUTH);
+            frame.add(panel3, BorderLayout.CENTER);
 
             printGraph();
         }
@@ -204,18 +216,20 @@ public class Main {
 
     public static void main(String[] args) {
 
-        graph.addNode("0");
-        graph.addNode("1");
-        graph.addNode("2");
-        graph.addNode("3");
+        graph.addNode("N0");
+        graph.addNode("N1");
+        graph.addNode("N2");
+        graph.addNode("N3");
         graph.connect(0, 3, 9);
         graph.connect(0, 1, 1);
         graph.connect(1, 2, 2);
         graph.connect(2, 3, 3);
 
+        dijkstra.run(graph, startNodeID, endNodeID);
         System.out.println("StartNode: " + startNodeID + ", EndNode: " + endNodeID);
         System.out.println(graph);
-        System.out.println("Dijkstra shortest path length: " + dijkstra.getShortestPath(graph, startNodeID, endNodeID));
+        System.out.println("Dijkstra shortest path length: " + dijkstra.getShortestPathLength());
+        System.out.println("Dijkstra shortest path: " + dijkstra.shortestPath);
 
         gui.run();
     }

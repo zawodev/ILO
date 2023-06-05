@@ -7,6 +7,7 @@ public class Node {
         this.name = name;
         outEdges = new ArrayList<>();
         inEdges = new ArrayList<>();
+        path = new ArrayList<>();
     }
     public void connectTo(Node node, int weight){
         Edge edge = new Edge(this, node, weight);
@@ -40,6 +41,7 @@ public class Node {
     }
     public int id;
     public String name;
+    public List<Node> path;
     public int dist;
     public List<Edge> outEdges;
     public List<Edge> inEdges;
