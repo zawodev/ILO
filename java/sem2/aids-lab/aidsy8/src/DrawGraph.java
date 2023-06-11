@@ -8,7 +8,7 @@ public class DrawGraph extends JComponent {
     private ArrayList<Point> points = new ArrayList();
     private int thickness = 50;
     private int arrowThickness = 7;
-    private float radius = 100;   // Promień koła
+    private float radius = 200;   // Promień koła
     private float centerX = 500;  // Współrzędna x środka koła
     private float centerY = 400;  // Współrzędna y środka koła
 
@@ -43,7 +43,9 @@ public class DrawGraph extends JComponent {
                     g.setColor(Color.black);
                     g.drawLine(a.x, a.y, b.x, b.y);
                     g.setColor(Color.red);
-                    g.drawString(Integer.toString(edge.weight), (a.x + b.x) / 2, (a.y + b.y) / 2);
+                    //int m = (int)((-1/(((a.y-b.y)/(a.x-b.x)))));
+                    //System.out.println(m);
+                    g.drawString(Integer.toString(edge.weight), (((a.x + b.x) / 2) + b.x) / 2, (((a.y + b.y) / 2) + b.y) / 2);
                     g.setColor(Color.darkGray);
 
                     AffineTransform tx = new AffineTransform();
