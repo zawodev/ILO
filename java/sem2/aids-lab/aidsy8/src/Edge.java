@@ -1,4 +1,3 @@
-
 public class Edge implements Comparable<Edge> {
     public int id;
     public int weight;

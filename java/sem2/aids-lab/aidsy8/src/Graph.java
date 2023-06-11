@@ -27,7 +27,7 @@ public class Graph {
         }
         for(int i = 0; i < nodeCount; i++){
             for(int j = 0; j < nodeCount; j++){
-                connect(i, j, random.nextInt(0, 2) * random.nextInt(0, maxWeight));
+                if(i != j) connect(i, j, random.nextInt(0, 2) * random.nextInt(0, maxWeight));
             }
         }
     }

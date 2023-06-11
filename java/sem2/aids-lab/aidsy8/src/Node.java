@@ -41,8 +41,8 @@ public class Node {
     }
     public int id;
     public String name;
-    public List<Node> path;
+    public ArrayList<Node> path;
     public int dist;
-    public List<Edge> outEdges;
-    public List<Edge> inEdges;
+    public ArrayList<Edge> outEdges;
+    public ArrayList<Edge> inEdges;
 }

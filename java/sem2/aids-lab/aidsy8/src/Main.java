@@ -24,9 +24,9 @@ public class Main {
         private JButton setStartEndButton;
         private JButton switchDirectedButton;
         private JFrame frame;
-        private JPanel panel1;
-        private JPanel panel2;
-        private JPanel panel3;
+        private JPanel inputPanel;
+        private JPanel buttonPanel;
+        private DrawGraph drawGraphComponent;
         class AddNode implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e){
@@ -100,6 +100,7 @@ public class Main {
                 graph.addNode("N1");
                 graph.addNode("N2");
                 graph.addNode("N3");
+                graph.addNode("N4");
                 graph.connect(0, 3, 9);
                 graph.connect(0, 1, 1);
                 graph.connect(1, 2, 2);
@@ -125,6 +126,9 @@ public class Main {
             textFieldName.setText("");
             dijkstra.run(graph, startNodeID, endNodeID);
             textAreaOutput.setText("StartNode: " + startNodeID + ", EndNode: " + endNodeID + "\nDijkstra shortest path length: " + dijkstra.getShortestPathLength() + "\nDijkstra Shortest Path: " + dijkstra.shortestPath + "\nGraph: " + graph.toString());
+            drawGraphComponent.draw();
+            //panel3 = new DrawCircleFrame(graph.nodes.size());
+            //panel3.repaint();
         }
         public void run(){
             textAreaOutput = new JTextArea();
@@ -162,35 +166,28 @@ public class Main {
             newRandomGraphButton = new JButton("Wylosuj Nowy Graf");
             newRandomGraphButton.addActionListener(new CreateRandomGraph());
 
-            panel1 = new JPanel();
-            panel1.setLayout(new GridLayout(1,8));
-            panel1.add(labelName);
-            panel1.add(textFieldName);
-            panel1.add(labelID1);
-            panel1.add(textFieldID1);
-            panel1.add(labelID2);
-            panel1.add(textFieldID2);
-            panel1.add(labelWeight);
-            panel1.add(textFieldWeight);
+            inputPanel = new JPanel();
+            inputPanel.setLayout(new GridLayout(1,8));
+            inputPanel.add(labelName);
+            inputPanel.add(textFieldName);
+            inputPanel.add(labelID1);
+            inputPanel.add(textFieldID1);
+            inputPanel.add(labelID2);
+            inputPanel.add(textFieldID2);
+            inputPanel.add(labelWeight);
+            inputPanel.add(textFieldWeight);
 
-            panel3 = new DrawCircleFrame(graph.nodes.size());
-            for(Node node : graph.nodes){
-                for(Edge edge : node.outEdges){
-                    panel3.draw
-                }
-            }
-            //panel3.setLayout(new GridLayout(1,1));
-            //panel3.add(textAreaOutput);
+            drawGraphComponent = new DrawGraph();
 
-            panel2 = new JPanel();
-            panel2.setLayout(new GridLayout(1,7));
-            panel2.add(addNodeButton);
-            panel2.add(addEdgeButton);
-            panel2.add(setStartEndButton);
-            panel2.add(switchDirectedButton);
-            panel2.add(newGraphButton);
-            panel2.add(newExampleGraphButton);
-            panel2.add(newRandomGraphButton);
+            buttonPanel = new JPanel();
+            buttonPanel.setLayout(new GridLayout(1,7));
+            buttonPanel.add(addNodeButton);
+            buttonPanel.add(addEdgeButton);
+            buttonPanel.add(setStartEndButton);
+            buttonPanel.add(switchDirectedButton);
+            buttonPanel.add(newGraphButton);
+            buttonPanel.add(newExampleGraphButton);
+            buttonPanel.add(newRandomGraphButton);
 
 
             frame = new JFrame("Dijkstra");
@@ -199,10 +196,10 @@ public class Main {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setResizable(true);
 
-            //frame.add(textAreaOutput, BorderLayout.NORTH);
-            frame.add(panel1, BorderLayout.NORTH);
-            frame.add(panel2, BorderLayout.SOUTH);
-            frame.add(panel3, BorderLayout.CENTER);
+            frame.add(textAreaOutput, BorderLayout.WEST);
+            frame.add(inputPanel, BorderLayout.NORTH);
+            frame.add(buttonPanel, BorderLayout.SOUTH);
+            frame.add(drawGraphComponent, BorderLayout.CENTER);
 
             printGraph();
         }
@@ -220,6 +217,7 @@ public class Main {
         graph.addNode("N1");
         graph.addNode("N2");
         graph.addNode("N3");
+        graph.addNode("N4");
         graph.connect(0, 3, 9);
         graph.connect(0, 1, 1);
         graph.connect(1, 2, 2);
