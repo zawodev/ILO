@@ -38,6 +38,18 @@ public class Graph {
         nodes.get(id1).connectTo(nodes.get(id2), weight);
         if(!directed) nodes.get(id2).connectTo(nodes.get(id1), weight);
     }
+    public void setDirected(boolean state){
+        directed = state;
+        if(!directed) directedFix();
+    }
+    private void directedFix(){
+        for(int i = 0; i < nodes.size(); i++){
+            for(int j = 0; j < nodes.size(); j++){
+                int weight = nodes.get(i).getEdgeWeight(nodes.get(j));
+                if(weight != 0) connect(j, i, weight);
+            }
+        }
+    }
     public String toString(){
         try {
             StringBuilder stringBuilder = new StringBuilder("[");
