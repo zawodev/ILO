@@ -55,7 +55,7 @@ public class DrawGraph extends JComponent {
 
                     tx.setToIdentity();
                     double angle2 = Math.atan2(b.y - a.y, b.x - a.x);
-                    tx.translate(b.x, b.y);
+                    tx.translate(b.x * 1.25, b.y *1.25);
                     tx.rotate((angle2 - Math.PI/2d));
 
                     Graphics2D g1 = (Graphics2D) g.create();
