@@ -2,6 +2,7 @@
 	printStartMsg: .asciiz "\nWpisz ilosc instrukcji: [1, 5]\n"
 	printGetInstructionMsg: .asciiz "\nWpisz kolejne instrukcje: \n"
 	printAllInputBadMsg: .asciiz "\nNie ma takiej instrukcji w zbiorze obslugiwanych instrukcji! Sproboj wpisac cala instrukcje jeszcze raz:\n"
+	printAllInputBadMsg2: .asciiz "\nNieprawdilowa liczba argumentow! Sproboj wpisac cala instrukcje jeszcze raz: \n"
 	printWrongRegisterMsg: .asciiz "\nTaki rejestr nie istnieje! Sproboj wpisac cala instrukcje jeszcze raz:\n"
 	printOutputStackPrintMsg: .asciiz "\nWypisywanie stacka w odwrotnej kolejnosci: \n"
 	printAllocatedMemoryMsg: .asciiz "\nIlosc zaalokowanych bajtow pamieci na stosie: "
@@ -45,6 +46,8 @@ main:
 	li $v0, 5 #read interger
 	syscall
 	move $t0, $v0
+	
+	bgt $t0, 5, main
 	
 	li $v0, 4 #print string
 	la $a0, printGetInstructionMsg
@@ -124,6 +127,13 @@ allInputBad:
 	syscall
 	
 	j start
+	
+allInputBad2:
+	li $v0, 4 #print string
+	la $a0, printAllInputBadMsg2
+	syscall
+	
+	j start
 checkInput:
 	jal checkInput1
 	jal checkInput2
@@ -194,7 +204,7 @@ cmpne:
 
 # strings are equal
 cmpeq:
-	bne $s1, $s3, allInputBad
+	bne $s1, $s3, allInputBad2
 	la $t1, input
     	j checkOtherWords
     	#j reverseOutputPointer
@@ -215,10 +225,12 @@ cmpeq:
 
 checkOtherWords: #first, check whether the other variables are legal
 	li $s5, 44 #comma ','
+	la $t7, word1
+	lb $t9, 1($t7) #should be R if JR
 	jal checkOtherWord2
 	jal checkOtherWord3
 	jal checkOtherWord4
-	j reverseOutputPointer #jak wszystkie git to idziemy dalej
+	j reverseOutputPointer
 checkOtherWord2:
 	la $t7, word2
 	lb $s0, ($t7)
@@ -237,10 +249,18 @@ checkOtherWord4:
 registerRequirments:
 	addi $t7, $t7, 1
 	lb $s0, ($t7)
+	
+	seq $t8, $s0, '3'
+	seq $t9, $t9, 'R'
+	and $t8, $t9, $t8
+	bnez $t8, jrCase #dla 31
+	bnez $t9, unknownRegisters
+	
 	beq $s0, '8', leftCase #dla 8
 	beq $s0, '9', leftCase #dla rejestru 9
 	beq $s0, '1', midCase #dla 10-19
 	beq $s0, '2', rightCase #dla 20-25
+	
 	b unknownRegisters
 leftCase:
 	addi $t7, $t7, 1
@@ -267,6 +287,18 @@ rightCase:
 	lb $s0, ($t7)
 	blt $s0, '0', unknownRegisters
 	bgt $s0, '5', unknownRegisters
+	addi $t7, $t7, 1
+	lb $s0, ($t7)
+	seq $s2, $s5, $s0
+	seq $s3, $zero, $s0
+	or $s2, $s2, $s3
+	bne $s2, 1, unknownRegisters
+	jr $ra
+jrCase:
+	addi $t7, $t7, 1
+	lb $s0, ($t7)
+	blt $s0, '1', unknownRegisters
+	bgt $s0, '1', unknownRegisters
 	addi $t7, $t7, 1
 	lb $s0, ($t7)
 	seq $s2, $s5, $s0
