@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Node {
     public Node(int id, String name){
@@ -42,18 +41,18 @@ public class Node {
         this.outEdges.add(edge);
         node.inEdges.add(edge);
     }
-    public int getShortestDist(){
-        int score = 999;
+    public int getLongestDist(){
+        int score = 0;
         for(Edge edge : outEdges){
-            if(edge.weight < score && edge.weight != 0) score = edge.weight;
+            if(edge.weight > score && edge.weight != 0) score = edge.weight;
         }
         return score;
     }
-    public Node getClosestNode(){
+    public Node getFurthestNode(){
         Node node = null;
-        int score = 999;
+        int score = 0;
         for(Edge edge : outEdges){
-            if(edge.weight < score && edge.weight != 0) {
+            if(edge.weight > score && edge.weight != 0) {
                 score = edge.weight;
                 node = edge.endNode;
             }

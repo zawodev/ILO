@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
 public class DrawGraph extends JComponent {
     private ArrayList<Point> points = new ArrayList();
@@ -41,12 +40,12 @@ public class DrawGraph extends JComponent {
             g.setColor(Color.gray);
             g.fillOval(x - thickness / 2, y - thickness / 2, thickness, thickness);
             if(debugCircles == 1) {
-                int size = Main.graph.nodes.get(i).getShortestDist();
+                int size = Main.graph.nodes.get(i).getLongestDist();
                 g.drawOval(x - size, y - size, 2 * size, 2 * size);
             }
             else if(debugCircles == 2) {
-                Node closestNode = Main.graph.nodes.get(i).getClosestNode();
-                int size = Main.graph.nodes.get(i).getShortestDist();
+                Node closestNode = Main.graph.nodes.get(i).getFurthestNode();
+                int size = Main.graph.nodes.get(i).getLongestDist();
                 g.drawOval((x + closestNode.pos.x - size) / 2, (y + closestNode.pos.y - size) / 2, size, size);
             }
             g.setColor(Color.black);
@@ -79,7 +78,7 @@ public class DrawGraph extends JComponent {
 
                     tx.setToIdentity();
                     double angle2 = Math.atan2(b.y - a.y, b.x - a.x);
-                    tx.translate(b.x * 1.25, b.y *1.25);
+                    tx.translate(b.x * 1, b.y *1); //*1.25
                     tx.rotate((angle2 - Math.PI/2d));
 
                     Graphics2D g1 = (Graphics2D) g.create();

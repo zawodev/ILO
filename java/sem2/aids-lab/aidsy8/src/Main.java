@@ -24,7 +24,7 @@ public class Main {
         private JButton newOnPlaneGraphButton;
         private JButton newRandomGraphButton;
         private JButton newGraphButton;
-        private JButton newExampleGraphButton;
+        private JButton connectAllNodesButton;
         private JButton newRNGGraphButton;
         private JButton newGGGraphButton;
         private JButton setStartEndButton;
@@ -39,8 +39,13 @@ public class Main {
             public void actionPerformed(ActionEvent e){
                 try {
                     String name = textFieldName.getText();
-                    int x = Integer.parseInt(textFieldID1.getText());
-                    int y = Integer.parseInt(textFieldID2.getText());
+                    int x = random.nextInt(50, drawGraphComponent.getWidth() - 150);
+                    int y = random.nextInt(50, drawGraphComponent.getHeight() - 50);
+                    try{
+                        x = Integer.parseInt(textFieldID1.getText());
+                        y = Integer.parseInt(textFieldID2.getText());
+                    }catch (Exception exception){}
+
                     if(!isOnPlane) graph.addNode(name);
                     else graph.addNodeOnPlane(name, x, y);
                     printGraph();
@@ -119,6 +124,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e){
                 isOnPlane = true;
+                graph.connectAll(graph.nodes.size());
                 graph = convertRNG(graph.nodes.size());
 
                 directedButtonFix();
@@ -129,6 +135,7 @@ public class Main {
             @Override
             public void actionPerformed(ActionEvent e){
                 isOnPlane = true;
+                graph.connectAll(graph.nodes.size());
                 graph = convertGG(graph.nodes.size());
 
                 directedButtonFix();
@@ -196,9 +203,10 @@ public class Main {
             return true;
         }
 
-        class CreateExampleGraph implements ActionListener{
+        class ConnectAll implements ActionListener{
             @Override
             public void actionPerformed(ActionEvent e){
+                /* //OLD EXAMPLE GRAPH
                 isOnPlane = false;
                 graph = new Graph();
                 directedButtonFix();
@@ -216,6 +224,12 @@ public class Main {
                 graph.connect(1, 2, 2);
                 graph.connect(2, 3, 3);
 
+                printGraph();
+                */
+                isOnPlane = true;
+                graph.connectAll(graph.nodes.size());
+
+                directedButtonFix();
                 printGraph();
             }
         }
@@ -323,8 +337,8 @@ public class Main {
             newGGGraphButton = new JButton("Nowy Graf GG");
             newGGGraphButton.addActionListener(new CreateGGGraph());
 
-            newExampleGraphButton = new JButton("Wyświetl Przykładowy Graf");
-            newExampleGraphButton.addActionListener(new CreateExampleGraph());
+            connectAllNodesButton = new JButton("Połącz Wszystkie Nody");
+            connectAllNodesButton.addActionListener(new ConnectAll());
 
             newRandomGraphButton = new JButton("Wylosuj Nowy Graf");
             newRandomGraphButton.addActionListener(new CreateRandomGraph());
@@ -364,7 +378,7 @@ public class Main {
             buttonPanel.add(newGraphButton);
             buttonPanel.add(newRNGGraphButton);
             buttonPanel.add(newGGGraphButton);
-            buttonPanel.add(newExampleGraphButton);
+            buttonPanel.add(connectAllNodesButton);
             buttonPanel.add(newRandomGraphButton);
 
             frame = new JFrame("Dijkstra");

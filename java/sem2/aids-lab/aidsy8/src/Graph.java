@@ -44,6 +44,9 @@ public class Graph {
         for(int i = 0; i < nodeCount; i++){
             addNodeOnPlane("N" + i, random.nextInt(minPosX, maxPosX), random.nextInt(minPosY, maxPosY));
         }
+        connectAll(nodeCount);
+    }
+    public void connectAll(int nodeCount){
         for(int i = 0; i < nodeCount; i++){
             for(int j = 0; j < nodeCount; j++){
                 if(i != j) connectOnPlane(i, j);
