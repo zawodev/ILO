@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +19,14 @@ public class Graph {
         //edges = new ArrayList<>();
 
         this.directed = directed;
-        generateCoherentGraph(nodeCount, maxWeight);
+        //generateCoherentGraph(nodeCount, maxWeight);
+    }
+    public Graph(int nodeCount){
+        currIndex = 0;
+        nodes = new ArrayList<>();
+        this.directed = false;
+
+        //generateOnPlaneGraph(nodeCount);
     }
     public void generateCoherentGraph(int nodeCount, int maxWeight){
         Random random = new Random();
@@ -31,8 +39,22 @@ public class Graph {
             }
         }
     }
+    public void generateOnPlaneGraph(int nodeCount, int minPosX, int maxPosX, int minPosY, int maxPosY){
+        Random random = new Random();
+        for(int i = 0; i < nodeCount; i++){
+            addNodeOnPlane("N" + i, random.nextInt(minPosX, maxPosX), random.nextInt(minPosY, maxPosY));
+        }
+        for(int i = 0; i < nodeCount; i++){
+            for(int j = 0; j < nodeCount; j++){
+                if(i != j) connectOnPlane(i, j);
+            }
+        }
+    }
     public void addNode(String name){
         nodes.add(new Node(currIndex++, name));
+    }
+    public void addNodeOnPlane(String name, int x, int y){
+        nodes.add(new Node(currIndex++, name, x, y));
     }
     public void connect(int id1, int id2, int weight){
         nodes.get(id1).connectTo(nodes.get(id2), weight);
@@ -49,6 +71,13 @@ public class Graph {
                 if(weight != 0) connect(j, i, weight);
             }
         }
+    }
+    public void connectOnPlane(int id1, int id2) {
+        int weight = calculateDistance(nodes.get(id1).pos, nodes.get(id2).pos);
+        connect(id1, id2, weight);
+    }
+    public int calculateDistance(Point a, Point b){
+        return (int)Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
     }
     public String toString(){
         try {

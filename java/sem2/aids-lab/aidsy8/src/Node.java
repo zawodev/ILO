@@ -1,10 +1,22 @@
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
     public Node(int id, String name){
+        //if(name == "") name = "N" + id;
         this.id = id;
         this.name = name;
+        this.pos = new Point(0, 0);
+        outEdges = new ArrayList<>();
+        inEdges = new ArrayList<>();
+        path = new ArrayList<>();
+    }
+    public Node(int id, String name, int x, int y){
+        //if(name == "") name = "N" + id;
+        this.id = id;
+        this.name = name;
+        this.pos = new Point(x, y);
         outEdges = new ArrayList<>();
         inEdges = new ArrayList<>();
         path = new ArrayList<>();
@@ -30,6 +42,24 @@ public class Node {
         this.outEdges.add(edge);
         node.inEdges.add(edge);
     }
+    public int getShortestDist(){
+        int score = 999;
+        for(Edge edge : outEdges){
+            if(edge.weight < score && edge.weight != 0) score = edge.weight;
+        }
+        return score;
+    }
+    public Node getClosestNode(){
+        Node node = null;
+        int score = 999;
+        for(Edge edge : outEdges){
+            if(edge.weight < score && edge.weight != 0) {
+                score = edge.weight;
+                node = edge.endNode;
+            }
+        }
+        return node;
+    }
     public int getEdgeWeight(Node node){
         for(Edge edge : outEdges){
             if(edge.endNode == node) return edge.weight;
@@ -40,9 +70,11 @@ public class Node {
         return name;
     }
     public int id;
+    public Point pos;
     public String name;
     public ArrayList<Node> path;
     public int dist;
     public ArrayList<Edge> outEdges;
     public ArrayList<Edge> inEdges;
+
 }

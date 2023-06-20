@@ -4,51 +4,32 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-public class DrawGraph extends JComponent {
+public class DrawPlaneGraph extends JComponent {
     private ArrayList<Point> points = new ArrayList();
-    private boolean isOnPlane = false;
-    private int debugCircles = 0;
-    private int thickness = 30;
+    private int thickness = 50;
     private int arrowThickness = 7;
     private float radius = 200;   // Promień koła
     private float centerX = 500;  // Współrzędna x środka koła
     private float centerY = 400;  // Współrzędna y środka koła
 
-    public DrawGraph() {
+    public DrawPlaneGraph() {
         //setPreferredSize(new Dimension(1500, 800));
         setVisible(true);
     }
     @Override
     protected void paintComponent(Graphics g){
         int numPoints = Main.graph.nodes.size();
-        points = new ArrayList<>();
         double angle = 2 * Math.PI / numPoints;
+        points = new ArrayList<>();
 
         for (int i = 0; i < numPoints; i++) {
-            int x;
-            int y;
-            if(!isOnPlane) {
-                x = (int) (centerX + radius * Math.cos(i * angle));
-                y = (int) (centerY + radius * Math.sin(i * angle));
-            }
-            else{
-                x = Main.graph.nodes.get(i).pos.x;
-                y = Main.graph.nodes.get(i).pos.y;
-            }
+            int x = (int) (centerX + radius * Math.cos(i * angle));
+            int y = (int) (centerY + radius * Math.sin(i * angle));
 
             points.add(new Point(x, y));
 
             g.setColor(Color.gray);
             g.fillOval(x - thickness / 2, y - thickness / 2, thickness, thickness);
-            if(debugCircles == 1) {
-                int size = Main.graph.nodes.get(i).getShortestDist();
-                g.drawOval(x - size, y - size, 2 * size, 2 * size);
-            }
-            else if(debugCircles == 2) {
-                Node closestNode = Main.graph.nodes.get(i).getClosestNode();
-                int size = Main.graph.nodes.get(i).getShortestDist();
-                g.drawOval((x + closestNode.pos.x - size) / 2, (y + closestNode.pos.y - size) / 2, size, size);
-            }
             g.setColor(Color.black);
             g.drawString("N" + i, x - thickness / 2, y - thickness / 2);
         }
@@ -64,12 +45,7 @@ public class DrawGraph extends JComponent {
                     g.setColor(Color.red);
                     //int m = (int)((-1/(((a.y-b.y)/(a.x-b.x)))));
                     //System.out.println(m);
-                    if(!isOnPlane) {
-                        g.drawString(Integer.toString(edge.weight), (((a.x + b.x) / 2) + b.x) / 2, (((a.y + b.y) / 2) + b.y) / 2);
-                    }
-                    else{
-                        g.drawString(Integer.toString(edge.weight), ((a.x + b.x) / 2), ((a.y + b.y) / 2));
-                    }
+                    g.drawString(Integer.toString(edge.weight), (((a.x + b.x) / 2) + b.x) / 2, (((a.y + b.y) / 2) + b.y) / 2);
                     g.setColor(Color.darkGray);
 
                     AffineTransform tx = new AffineTransform();
@@ -89,12 +65,9 @@ public class DrawGraph extends JComponent {
                 }
             }
         }
-
         repaint();
     }
-    public void draw(boolean isOnPlane, int debugCircles){
-        this.isOnPlane = isOnPlane;
-        this.debugCircles = debugCircles;
+    public void draw(){
         repaint();
     }
 }
