@@ -1,20 +1,16 @@
-#.data
-#	yourMsg1: .asciiz "temp1\n"
-#	yourMsg2: .asciiz "temp2\n"
-#	yourMsg3: .asciiz "temp3\n"
-	
-#	yourErrorMsg1: .asciiz "temp error 1\n"
-#	yourErrorMsg2: .asciiz "temp error 2\n"
 .data
-	yourMsg1: .asciiz "\nilosc gier [1, 5]\n"
-	yourMsg2: .asciiz "\npodaj X or O\n"
-	yourMsg3: .asciiz "\npodaj pole [1, 9]\n"
-	yourMsg4: .asciiz "\nwygralo: "
-	yourMsg5: .asciiz "\nzwyciezcy gier: \n"
+	printGameCountMsg: .asciiz "\nwybierz ilosc gier z zakresu [1, 5]\n"
+	printXorOMsg: .asciiz "\nwybierz X lub O\n"
+	printGiveSquareMsg: .asciiz "\npodaj pole [1, 9]\n"
+	printWinMsg: .asciiz "\nwygral: "
+	printWinnersMsg: .asciiz "\nzwyciezcy gier:"
+	printDrawMsg: .asciiz "\nremis"
+	printEnemyTurnMsg: .asciiz "\ntura przeciwnika: \n"
 		
-	yourErrorMsg1: .asciiz "\nnot in range\n"
-	yourErrorMsg2: .asciiz "\noccupied field\n"
-	yourErrorMsg3: .asciiz "\nnot in range\n"
+	printErrorMsg1: .asciiz "\nliczba nie jest w zakresie [1, 5]\n"
+	printErrorMsg2: .asciiz "\npole jest juz zajete - wybierz inne pole\n"
+	printErrorMsg3: .asciiz "\nmusisz podac znak X lub O\n"
+	printErrorMsg4: .asciiz "\nliczba nie jest w zakresie [1, 9]\n"
 	
 	output: .space 100
 	output2: .space 100
@@ -33,7 +29,7 @@
 
 main:
 	li $v0, 4 #print string
-	la $a0, yourMsg1
+	la $a0, printGameCountMsg
 	syscall
 
 	li $v0, 5 #read int
@@ -45,7 +41,7 @@ main:
 
 main2:
 	li $v0, 4 #print string
-	la $a0, yourMsg2
+	la $a0, printXorOMsg
 	syscall
 	
 	li $v0, 12 #read char
@@ -71,8 +67,13 @@ main2:
 	li $s0, 0x10018888
 	
 	j game
+drawCase:
+	la $t9, printDrawMsg
+	jal addToStack
+	
+	j game
 game:
-	li $t3, 4
+	li $t3, 5
 	#print round result
 	
 	jal s0clear
@@ -83,7 +84,7 @@ game:
 	j nextRound
 nextRound:
 	li $v0, 4 #print string
-	la $a0, yourMsg3
+	la $a0, printGiveSquareMsg
 	syscall
 	
 	li $v0, 5 #read int
@@ -94,35 +95,41 @@ nextRound:
 	
 	jal checkWin
 	
+	jal printGUI #print round gui
+	
+	addi $t3, $t3, -1 #loop counter
+	beqz $t3, drawCase #remis jesli nikt nie wygral
+	
 	jal enemyTurn
+	
+	li $v0, 4 #print string
+	la $a0, printEnemyTurnMsg
+	syscall
 	
 	jal checkWin
 	
 	jal printGUI #print round gui
 	
-	addi $t3, $t3, -1 #loop counter
-	#b game jesli ktos wygral
-	beqz $t3, game
 	j nextRound
 #=======================================================	
 notInRangeError:
 	li $v0, 4 #print string
-	la $a0, yourErrorMsg1
+	la $a0, printErrorMsg1
 	syscall
 	j main
 notInRangeError2:
 	li $v0, 4 #print string
-	la $a0, yourErrorMsg1
+	la $a0, printErrorMsg3
 	syscall
 	j main2
 notInRangeError3:
 	li $v0, 4 #print string
-	la $a0, yourErrorMsg1
+	la $a0, printErrorMsg4
 	syscall
 	j nextRound
 occupiedFieldError:
 	li $v0, 4 #print string
-	la $a0, yourErrorMsg2
+	la $a0, printErrorMsg2
 	syscall
 	j nextRound
 check1: #t0 in range of [1, 5]
@@ -345,7 +352,7 @@ win:
 	jal printGUI #print round gui
 
 	li $v0, 4 #print string
-	la $a0, yourMsg4
+	la $a0, printWinMsg
 	syscall
 	
 	li $v0, 11 #print int
@@ -355,7 +362,7 @@ win:
 	addi $sp, $sp, -1 #next byte
 	sb $t5, 0($sp) #save byte to stack
 	
-	la $t9, yourMsg4
+	la $t9, printWinMsg
 	jal addToStack
 	
 	
@@ -397,7 +404,7 @@ endLoop:
     	j endLoop
 printOutput:
 	li $v0, 4 #print string
-	la $a0, yourMsg5
+	la $a0, printWinnersMsg
 	syscall
 
 	li $v0, 4 #print string
