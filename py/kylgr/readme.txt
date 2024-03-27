@@ -1,0 +1,1 @@
+windows defender usunął mi keyloggera XDD rzekomo wirus - tyle było z mojej nauki
